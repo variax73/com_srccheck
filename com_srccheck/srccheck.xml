@@ -32,6 +32,10 @@
 
 	<administration>
             <files folder="admin">
+                <!-- Admin Main File Copy Section -->
+		<filename>index.html</filename>
+		<!-- SQL files section -->
+		<folder>sql</folder>
 		<!-- custom library files section -->
 		<folder>mb_lib</folder>
             </files>
