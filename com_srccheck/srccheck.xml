@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+
+	<name>COM_SRCCHECK</name>
+	<creationDate>September 2019</creationDate>
+	<author>Maciej Bednarski</author>
+	<authorEmail>maciek.bednarski@gmail.com</authorEmail>
+	<copyright>Copyright Info</copyright>
+	<license>License Info</license>
+	<version>0.0.1</version>
+	<description>COM_SRCCHECK_DESCRIPTION</description>
+
+	<!-- Runs on install/uninstall/update; New in 2.5 -->
+	<scriptfile>script.php</scriptfile>
+
+	<install> <!-- Runs on install -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall> <!-- Runs on uninstall -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+        <update> <!-- Runs on update; New since J2.5 -->
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+
+	<administration>
+                <languages folder="admin/language">
+                    <language tag="en-GB">en-GB/en-GB.com_srccheck.ini</language>
+                    <language tag="en-GB">en-GB/en-GB.com_srccheck.sys.ini</language>
+                </languages>
+        </administration>
+</extension>
