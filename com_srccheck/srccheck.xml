@@ -2,11 +2,11 @@
 <extension type="component" version="3.0" method="upgrade">
 
 	<name>COM_SRCCHECK</name>
-	<creationDate>September 2019</creationDate>
+	<creationDate>March 2020</creationDate>
 	<author>Maciej Bednarski</author>
 	<authorEmail>maciek.bednarski@gmail.com</authorEmail>
-	<copyright>Copyright Info</copyright>
-	<license>License Info</license>
+	<copyright>COM_COPYRIGHT</copyright>
+	<license>COM_LICENSE</license>
 	<version>0.0.1</version>
 	<description>COM_SRCCHECK_DESCRIPTION</description>
 
@@ -31,9 +31,13 @@
 	</update>
 
 	<administration>
-                <languages folder="admin/language">
-                    <language tag="en-GB">en-GB/en-GB.com_srccheck.ini</language>
-                    <language tag="en-GB">en-GB/en-GB.com_srccheck.sys.ini</language>
-                </languages>
+            <files folder="admin">
+		<!-- custom library files section -->
+		<folder>mb_lib</folder>
+            </files>
+            <languages folder="admin/language">
+                <language tag="en-GB">en-GB/en-GB.com_srccheck.ini</language>
+                <language tag="en-GB">en-GB/en-GB.com_srccheck.sys.ini</language>
+            </languages>
         </administration>
 </extension>
