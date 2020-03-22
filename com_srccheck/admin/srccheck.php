@@ -1,4 +1,5 @@
 <?php
+
 /* 
  * Copyright (C) 2020 Your Name <your.name at your.org>
  *
@@ -23,34 +24,14 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  */
 
-function addDirToZip( $dir, $zip ){
-    $files = scandir($dir);
-    
-    foreach($files as $key => $value)
-    {
-        $path = $dir.DIRECTORY_SEPARATOR.$value;
-        if( !is_dir($path) ){
-            $zip->addFile($path);
-	}elseif ($value != '.' && $value != '..') {
-            addDirToZip( $path, $zip );
-	}
-    }
-};
+// No direct access to this file
+defined('_JEXEC') or die('Restricted access');
 
-echo "Start\n";
+// Get an instance of the controller prefixed by HelloWorld
+$controller = JControllerLegacy::getInstance('SrcCheck');
 
-$zip = new ZipArchive();
-$filename = "./com_srccheck.zip";
+// Perform the Request task
+$controller->execute(JFactory::getApplication()->input->get('task'));
 
-if ($zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE)!==TRUE) {
-    exit("cannot open <$filename>\n");
-}
-
-addDirToZip( "admin", $zip );
-
-$zip->addFile("srccheck.xml");
-$zip->addFile("script.php");
-$zip->addFile("index.html");
-
-$zip->close();
-echo "Stop\n";
+// Redirect if set by the controller
+$controller->redirect();

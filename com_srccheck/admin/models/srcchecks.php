@@ -1,4 +1,5 @@
 <?php
+
 /* 
  * Copyright (C) 2020 Your Name <your.name at your.org>
  *
@@ -23,34 +24,31 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  */
 
-function addDirToZip( $dir, $zip ){
-    $files = scandir($dir);
-    
-    foreach($files as $key => $value)
-    {
-        $path = $dir.DIRECTORY_SEPARATOR.$value;
-        if( !is_dir($path) ){
-            $zip->addFile($path);
-	}elseif ($value != '.' && $value != '..') {
-            addDirToZip( $path, $zip );
+// No direct access to this file
+defined('_JEXEC') or die('Restricted access');
+
+/**
+ * HelloWorldList Model
+ *
+ * @since  0.0.1
+ */
+class SrcCheckModelSrcChecks extends JModelList
+{
+	/**
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return      string  An SQL query
+	 */
+	protected function getListQuery()
+	{
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select('*')
+                ->from($db->quoteName('#__crc_v_summary'));
+
+		return $query;
 	}
-    }
-};
-
-echo "Start\n";
-
-$zip = new ZipArchive();
-$filename = "./com_srccheck.zip";
-
-if ($zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE)!==TRUE) {
-    exit("cannot open <$filename>\n");
 }
-
-addDirToZip( "admin", $zip );
-
-$zip->addFile("srccheck.xml");
-$zip->addFile("script.php");
-$zip->addFile("index.html");
-
-$zip->close();
-echo "Stop\n";

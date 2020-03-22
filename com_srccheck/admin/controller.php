@@ -1,4 +1,5 @@
 <?php
+
 /* 
  * Copyright (C) 2020 Your Name <your.name at your.org>
  *
@@ -23,34 +24,13 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  */
 
-function addDirToZip( $dir, $zip ){
-    $files = scandir($dir);
-    
-    foreach($files as $key => $value)
-    {
-        $path = $dir.DIRECTORY_SEPARATOR.$value;
-        if( !is_dir($path) ){
-            $zip->addFile($path);
-	}elseif ($value != '.' && $value != '..') {
-            addDirToZip( $path, $zip );
-	}
-    }
-};
-
-echo "Start\n";
-
-$zip = new ZipArchive();
-$filename = "./com_srccheck.zip";
-
-if ($zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE)!==TRUE) {
-    exit("cannot open <$filename>\n");
+class SrcCheckController extends JControllerLegacy
+{
+	/**
+	 * The default view for the display method.
+	 *
+	 * @var string
+	 * @since 12.2
+	 */
+	protected $default_view = 'srcchecks';
 }
-
-addDirToZip( "admin", $zip );
-
-$zip->addFile("srccheck.xml");
-$zip->addFile("script.php");
-$zip->addFile("index.html");
-
-$zip->close();
-echo "Stop\n";
