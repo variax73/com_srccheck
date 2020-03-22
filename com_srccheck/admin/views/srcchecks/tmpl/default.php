@@ -93,4 +93,5 @@ defined('_JEXEC') or die('Restricted Access');
 		<?php endif; ?>
             </tbody>
 	</table>
+    	<input type="hidden" name="task" value=""/>
 </form>

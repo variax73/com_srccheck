@@ -44,6 +44,8 @@
                 <folder>models</folder>
                 <!-- views files section -->
                 <folder>views</folder>
+                <!-- controllers files section -->
+                <folder>controllers</folder>
 		<!-- custom library files section -->
 		<folder>mb_lib</folder>
             </files>
