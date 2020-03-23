@@ -40,7 +40,7 @@ function addDirToZip( $dir, $zip ){
 echo "Start\n";
 
 $zip = new ZipArchive();
-$filename = "./com_srccheck.zip";
+$filename = "com_srccheck.zip";
 
 if ($zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE)!==TRUE) {
     exit("cannot open <$filename>\n");
@@ -53,4 +53,10 @@ $zip->addFile("script.php");
 $zip->addFile("index.html");
 
 $zip->close();
+
+
+if (!copy($filename, "./srccheck-updates/".$filename)) {
+    echo "failed to copy $filename...\n";
+}
+
 echo "Stop\n";
