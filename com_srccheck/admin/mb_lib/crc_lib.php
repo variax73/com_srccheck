@@ -101,8 +101,6 @@ function generate_crc_tmp( $dir ){
     // Set the query using our newly populated query object and execute it.
     $db->setQuery($query);
     $db->execute();
-
-//echo "Załadowano ". $j . " wierszy do tabeli tmp<br>";
 }
 
 function update_crc_from_tmp($veryfied=0){
@@ -113,23 +111,41 @@ function update_crc_from_tmp($veryfied=0){
     // Get a db connection.
     $db = JFactory::getDbo();
 
+    
+    /* 
+     * Files status:
+     * 0 - new file;
+     * 1 - checked file;
+     * 2 - deleted file;
+     */
+    /*
+     * Add new files
+     */
     $query = $db->getQuery(true);
-    $query = "INSERT INTO #__crc_files (path, filename) SELECT path, filename FROM #__crc_tmp ct LEFT JOIN #__crc_files cf USING (path, filename) WHERE cf.path is NULL;";
+    $query = "INSERT INTO #__crc_files (path, filename, status) SELECT path, filename,".$veryfied." FROM #__crc_tmp ct LEFT JOIN #__crc_files cf USING (path, filename) WHERE cf.path is NULL;";
     $db->setQuery($query);
     $db->execute();
-
+    
     $query = $db->getQuery(true);
     $query = "INSERT INTO #__crc_check_history (users_id) VALUES('".JFactory::getUser()->get('id')."');";
     $db->setQuery($query);
     $db->execute();
 
-
     $query = $db->getQuery(true);
     $query = "INSERT INTO #__crc_check (crc_files_id, crc, veryfied, crc_check_history_id) SELECT cf.id, ct.crc, ".$veryfied.", LAST_INSERT_ID() FROM #__crc_files cf, #__crc_tmp ct WHERE cf.path = ct.path AND cf.filename = ct.filename;";
-
     $db->setQuery($query);
-
     $db->execute();
+
+    /*
+     * Update deleted files.
+     */
+    if(!$veryfied) {
+        $query = $db->getQuery(true);
+        $query = "UPDATE #__crc_files cf LEFT JOIN #__crc_check cc ON cf.id = cc.crc_files_id AND cc.crc_check_history_id = (SELECT max(cch.id) FROM #__crc_check_history cch) SET cf.status = 2 WHERE cc.id is NULL;";
+        $db->setQuery($query);
+        $db->execute();
+    }
+    
 }
 
 function update_veryfied_crc(){

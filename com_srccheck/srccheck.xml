@@ -54,4 +54,8 @@
                 <language tag="en-GB">en-GB/en-GB.com_srccheck.sys.ini</language>
             </languages>
         </administration>
+        	 <updateservers>
+		<!-- Change the URL below to match that of your own update XML file -->
+		<server type="extension" name="Source Check Updates">http://localhost/helloworld-updates/updates.xml</server>
+	</updateservers>
 </extension>

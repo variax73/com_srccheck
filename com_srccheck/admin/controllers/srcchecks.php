@@ -41,9 +41,11 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
 	{
             $db = JFactory::getDbo();
             $db->transactionStart();
+
             generate_crc_tmp( JPATH_ROOT );
             update_crc_from_tmp(false);
             update_veryfied_crc();
+
             $db->transactionCommit();
 
             $this->setRedirect('index.php?option=com_srccheck');

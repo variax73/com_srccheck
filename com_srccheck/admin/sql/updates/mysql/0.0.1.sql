@@ -15,8 +15,9 @@ CREATE TABLE IF NOT EXISTS `#__crc_files` (
   `path` TEXT NOT NULL,
   `filename` VARCHAR(512) NOT NULL,
   `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` TINYINT(2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` USING BTREE (`id`) VISIBLE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -59,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `#__crc_check` (
   `crc_check_history_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) INVISIBLE,
-  INDEX `fk_crc_check_crc_files_idx` (`crc_files_id` ASC) INVISIBLE,
-  INDEX `fk_crc_check_crc_check_history_idx` (`crc_check_history_id` ASC) VISIBLE,
+  INDEX `fk_crc_check_crc_files_idx` USING BTREE (`crc_files_id`) VISIBLE,
+  INDEX `fk_crc_check_crc_check_history_idx` USING BTREE (`crc_check_history_id`) VISIBLE,
   CONSTRAINT `fk_crc_check_crc_files`
     FOREIGN KEY (`crc_files_id`)
     REFERENCES `#__crc_files` (`id`)

@@ -43,6 +43,22 @@ defined('_JEXEC') or die('Restricted Access');
                         </tr>
                         <tr>
                             <td>
+                                <?php echo JText::_('COM_SRCCHECK_NEW_FILES'); ?>
+                            </td>
+                            <td>
+                                <?php echo $row->new_files; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php echo JText::_('COM_SRCCHECK_DELETED_FILES'); ?>
+                            </td>
+                            <td>
+                                <?php echo $row->deleted_files; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 <?php echo JText::_('COM_SRCCHECK_COUNT_VERYFIED_POSITIVE'); ?>
                             </td>
                             <td>
