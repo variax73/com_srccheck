@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<description>COM_SRCCHECK_DESCRIPTION</description>
 		<element>com_srccheck</element>
 		<type>component</type>
-		<version>0.0.2</version>
+		<version>0.0.3</version>
 		<infourl>https://github.com/variax73/com_srccheck/blob/master/com_srccheck/srccheck-updates/info.html</infourl>
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/variax73/com_srccheck/blob/master/com_srccheck/srccheck-updates/com_srccheck.zip</downloadurl>
