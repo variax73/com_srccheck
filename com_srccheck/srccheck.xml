@@ -7,7 +7,7 @@
 	<authorEmail>maciek.bednarski@gmail.com</authorEmail>
 	<copyright>COM_COPYRIGHT</copyright>
 	<license>COM_LICENSE</license>
-	<version>0.0.2</version>
+	<version>0.0.4</version>
 	<description>COM_SRCCHECK_DESCRIPTION</description>
 
 	<!-- Runs on install/uninstall/update; New in 2.5 -->
@@ -36,9 +36,11 @@
             <files folder="admin">
                 <!-- Admin Main File Copy Section -->
 		<filename>index.html</filename>
+                <filename>config.xml</filename>
 		<filename>srccheck.php</filename>
                 <filename>controller.php</filename>
-		<!-- SQL files section -->
+                <filename>access.xml</filename>
+                <!-- SQL files section -->
 		<folder>sql</folder>
                 <!-- models files section -->
                 <folder>models</folder>
@@ -46,6 +48,8 @@
                 <folder>views</folder>
                 <!-- controllers files section -->
                 <folder>controllers</folder>
+                <!-- helpers files section -->
+		<folder>helpers</folder>
 		<!-- custom library files section -->
 		<folder>mb_lib</folder>
             </files>

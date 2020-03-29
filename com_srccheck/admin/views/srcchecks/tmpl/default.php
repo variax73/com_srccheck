@@ -29,7 +29,11 @@ defined('_JEXEC') or die('Restricted Access');
 ?>
 
 <form action="index.php?option=com_srccheck&view=srcchecks" method="post" id="adminForm" name="adminForm">
-	<table class="table table-striped table-hover">
+    <div id="j-sidebar-container" class="span2">
+        <?php echo JHtmlSidebar::render(); ?>
+    </div>
+    <div id="j-main-container" class="span10">
+        <table class="table table-striped table-hover">
             <tbody>
                 <?php if (!empty($this->items)) : ?>
                     <?php foreach ($this->items as $i => $row) : ?>
@@ -110,4 +114,5 @@ defined('_JEXEC') or die('Restricted Access');
             </tbody>
 	</table>
     	<input type="hidden" name="task" value=""/>
+    </div>
 </form>

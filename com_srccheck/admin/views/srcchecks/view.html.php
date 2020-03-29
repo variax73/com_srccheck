@@ -41,19 +41,28 @@ class SrcCheckViewSrcChecks extends JViewLegacy
 		// Get data from the model
 		$this->items		= $this->get('Items');
 
+                // What Access Permissions does this user have? What can (s)he do?
+		$this->canDo = JHelperContent::getActions('com_srccheck');
+                
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
-
-			return false;
+                    throw new Exception(implode("\n", $errors), 500);
+//		JError::raiseError(500, implode('<br />', $errors));
+//			return false;
 		}
+
+                // Set the submenu
+		SrcCheckHelper::addSubmenu('srcchecks');
 
                 // Set the toolbar
 		$this->addToolBar();
 
 		// Display the template
 		parent::display($tpl);
+
+                // Set the document
+		$this->setDocument();
 	}
         /**
 	 * Add the page title and toolbar.
@@ -65,6 +74,26 @@ class SrcCheckViewSrcChecks extends JViewLegacy
 	protected function addToolBar()
 	{
             JToolbarHelper::title(JText::_('COM_SRCCHECH_MANAGER_TITLE'));
-            JToolbarHelper::custom('srcchecks.verify',null,null,'COM_SRCCHECK_BTN_VERIFY',false);
+
+            if ($this->canDo->get('srcchecks.verify')) 
+            {
+                JToolbarHelper::custom('srcchecks.verify',null,null,'COM_SRCCHECK_BTN_VERIFY',false);
+            }
+
+            // Options button.
+            if (JFactory::getUser()->authorise('core.admin', 'com_srccheck')) 
+            {
+                JToolBarHelper::preferences('com_srccheck');
+            }
+	}
+        	/**
+	 * Method to set up the document properties
+	 *
+	 * @return void
+	 */
+	protected function setDocument() 
+	{
+		$document = JFactory::getDocument();
+		$document->setTitle(JText::_('COM_SRCCHECK_ADMINISTRATION'));
 	}
 }
