@@ -26,6 +26,7 @@
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
+
 ?>
 
 <form action="index.php?option=com_srccheck&view=srcchecks" method="post" id="adminForm" name="adminForm">
@@ -113,6 +114,7 @@ defined('_JEXEC') or die('Restricted Access');
 		<?php endif; ?>
             </tbody>
 	</table>
-    	<input type="hidden" name="task" value=""/>
+       	<input type="hidden" name="task" value=""/>
+	<?php echo JHtml::_('form.token'); ?>
     </div>
 </form>

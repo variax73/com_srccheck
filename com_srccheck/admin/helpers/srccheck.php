@@ -50,6 +50,7 @@ abstract class SrcCheckHelper extends JHelperContent
         $document = JFactory::getDocument();
 //        $document->addStyleDeclaration('.icon-48-helloworld ' .
 //            '{background-image: url(../media/com_helloworld/images/tux-48x48.png);}');
+
         if ($submenu == 'manage') 
         {
             $document->setTitle(JText::_('COM_SRCCHECK_ADMINISTRATION_MANAGE'));
