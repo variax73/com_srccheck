@@ -44,13 +44,12 @@ class SrcCheckViewManage extends JViewLegacy
 
             // Get data from the model
             $this->items		= $this->get('Items');
-            $this->pagination	= $this->get('Pagination');
-
+            $this->pagination           = $this->get('Pagination');
             $this->state		= $this->get('State');
             $this->filter_order 	= $app->getUserStateFromRequest($context.'filter_order', 'filter_order', 'path', 'cmd');
             $this->filter_order_Dir     = $app->getUserStateFromRequest($context.'filter_order_Dir', 'filter_order_Dir', 'asc', 'cmd');
-//            $this->filterForm    	= $this->get('FilterForm');
-//            $this->activeFilters 	= $this->get('ActiveFilters');
+            $this->filterForm    	= $this->get('FilterForm');
+            $this->activeFilters 	= $this->get('ActiveFilters');
 
             // Check for errors.
             if (count($errors = $this->get('Errors')))
@@ -64,10 +63,10 @@ class SrcCheckViewManage extends JViewLegacy
 
             // Set the toolbar
             $this->addToolBar();
-
+            
             // Set the document
             $this->setDocument();
-                
+                        
             // Display the view
             parent::display($tpl);
 	}

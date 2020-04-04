@@ -78,6 +78,30 @@ class SrcCheckModelManage extends JModelList
 
         $query->group($db->quoteName(array('cf.path', 'cf.filename', 'cf.status', 'cc.veryfied')));
 
+        // Filter: like / search
+        $search = $this->getState('filter.search');
+
+        if (!empty($search))
+        {
+            $like = $db->quote('%' . $search . '%');
+            $query->where('cf.path LIKE ' . $like);
+            $query->orwhere('cf.filename LIKE ' . $like);
+        }
+
+        // Filtered by file status
+        
+        $file_status = $this->getState('filter.file_status');
+
+        if( is_numeric( $file_status ) ){
+            $query->where( "cf.status = ".(int)$file_status );
+        }
+
+        $file_veryfied = $this->getState('filter.file_veryfied');
+
+        if( is_numeric( $file_veryfied ) ){
+            $query->where( "cc.veryfied = ".(int)$file_veryfied );
+        }
+
         // Add the list ordering clause.
 	$orderCol	= $this->state->get('list.ordering', 'path');
 	$orderDirn 	= $this->state->get('list.direction', 'asc');

@@ -21,21 +21,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <field
             name="search"
             type="text"
-            label="COM_BANNERS_SEARCH_IN_TITLE"
+            label="COM_SRCCHECK_SEARCH_PATH_FILE"
             hint="JSEARCH_FILTER"
             class="js-stools-search-string"
 	/>
-	<!--field
-            name="published"
-            type="status"
-            label="JOPTION_SELECT_PUBLISHED"
-            description="JOPTION_SELECT_PUBLISHED_DESC"
-            onchange="this.form.submit();"
-            >
-            <option value="">JOPTION_SELECT_PUBLISHED</option>
-        </field-->
+        <field name     = "file_status"
+            type        = "list"
+            default     = ""
+            label       = "COM_SRCCHECK_FILTER_FILE_STATUS"
+            onchange    = "this.form.submit();"
+        >
+        <option value="">COM_SRCCHECK_FILTER_SELECT_STATUS_FILE</option>
+        <option value="0">COM_SRCCHECK_NEW_STATUS_FILE</option>
+        <option value="1">COM_SRCCHECK_VERYFIED_STATUS_FILE</option>
+        <option value="2">COM_SRCCHECK_DELETED_STATUS_FILE</option>
+        </field>
+        <field name     = "file_veryfied"
+            type        = "list"
+            default     = ""
+            label       = "COM_SRCCHECK_FILTER_FILE_VERYFIED"
+            onchange    = "this.form.submit();"
+        >
+        <option value="">COM_SRCCHECK_FILTER_SELECT_VERYFIED</option>
+        <option value="0">COM_SRCCHECK_INVALID_STATUS_FILE</option>
+        <option value="1">COM_SRCCHECK_VALID_STATUS_FILE</option>
+        </field>
     </fields>
-    <!--fields name="list">
+    <fields name="list">
         <field
             name="limit"
             type="limitbox"
@@ -45,5 +57,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             description="COM_HELLOWORLD_LIST_LIMIT_DESC"
             onchange="this.form.submit();"
         />
-    </fields-->
+    </fields>
 </form>

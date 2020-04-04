@@ -58,11 +58,11 @@ class SrcCheckViewSrcChecks extends JViewLegacy
                 // Set the toolbar
 		$this->addToolBar();
 
-		// Display the template
-		parent::display($tpl);
-
                 // Set the document
 		$this->setDocument();
+
+                // Display the template
+		parent::display($tpl);
 	}
         /**
 	 * Add the page title and toolbar.
