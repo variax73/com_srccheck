@@ -48,6 +48,7 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
 
             $db->transactionCommit();
 
-            $this->setRedirect('index.php?option=com_srccheck');
+            // Display the view
+            parent::display($tpl);
         }
 }

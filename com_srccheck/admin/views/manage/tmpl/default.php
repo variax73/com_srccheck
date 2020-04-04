@@ -27,7 +27,10 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
 
+$listOrder     = $this->escape($this->filter_order);
+$listDirn      = $this->escape($this->filter_order_Dir);
 ?>
+
 <form action="index.php?option=com_srccheck&view=manage" method="post" id="adminForm" name="adminForm">
     <div id="j-sidebar-container" class="span2">
         <?php echo JHtmlSidebar::render(); ?>
@@ -36,18 +39,21 @@ defined('_JEXEC') or die('Restricted Access');
 	<table class="table table-striped table-hover">
                 <thead>
 		<tr>
-			<th width="1%"><?php echo JText::_('COM_HELLOWORLD_NUM'); ?></th>
+			<th width="1%"><?php echo JText::_('COM_SRECCHECK_NUM'); ?></th>
 			<th width="2%">
 				<?php echo JHtml::_('grid.checkall'); ?>
 			</th>
-			<th width="90%">
-				<?php echo JText::_('COM_HELLOWORLD_HELLOWORLDS_NAME') ;?>
+			<th width="50%">
+				<?php echo JHtml::_('grid.sort','COM_SRCCHECK_PATH', 'path', $listDirn, $listOrder) ;?>
 			</th>
-			<th width="5%">
-				<?php echo JText::_('COM_HELLOWORLD_PUBLISHED'); ?>
+			<th width="30%">
+				<?php echo JHtml::_('grid.sort','COM_SRCCHECK_FILENAME', 'filename', $listDirn, $listOrder); ?>
 			</th>
-			<th width="2%">
-				<?php echo JText::_('COM_HELLOWORLD_ID'); ?>
+			<th width="20%">
+				<?php echo JHtml::_('grid.sort','COM_SRCCHECK_STATUS', 'status', $listDirn, $listOrder); ?>
+			</th>
+			<th width="20%">
+				<?php echo JHtml::_('grid.sort','COM_SRCCHECK_VERYFIED', 'veryfied', $listDirn, $listOrder); ?>
 			</th>
 		</tr>
 		</thead>
@@ -76,7 +82,36 @@ defined('_JEXEC') or die('Restricted Access');
 							<?php echo $row->filename; ?>
 						</td>
 						<td align="center">
-							<?php echo $row->id; ?>
+							<?php
+                                                            switch ($row->status) {
+                                                                case 0:
+                                                                    echo JText::_('COM_SRCCHECK_NEW_STATUS_FILE');
+                                                                    break;
+                                                                case 1:
+                                                                    echo JText::_('COM_SRCCHECK_VERYFIED_STATUS_FILE');
+                                                                    break;
+                                                                case 2:
+                                                                    echo JText::_('COM_SRCCHECK_DELETED_STATUS_FILE');
+                                                                    break;
+                                                                default:
+                                                                    echo JText::_('COM_SRCCHECK_UNEXPECTED_STATUS_FILE');
+                                                            }
+                                                        ?>
+						</td>
+						<td align="center">
+							<?php
+//                                                            echo JText::_($row->last_check_id);
+                                                            switch ($row->veryfied) {
+                                                                case 0:
+                                                                    echo JText::_('COM_SRCCHECK_INVALID_STATUS_FILE');
+                                                                    break;
+                                                                case 1:
+                                                                    echo JText::_('COM_SRCCHECK_VALID_STATUS_FILE');
+                                                                    break;
+                                                                default:
+                                                                    echo JText::_('COM_SRCCHECK_UNEXPECTED_STATUS_FILE');
+                                                            }
+                                                        ?>
 						</td>
 					</tr>
 				<?php endforeach; ?>
@@ -84,6 +119,8 @@ defined('_JEXEC') or die('Restricted Access');
 		</tbody>
 	</table>
        	<input type="hidden" name="task" value=""/>
+       	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>
     </div>
 </form>

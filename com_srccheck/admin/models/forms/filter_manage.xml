@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2020 Your Name <your.name at your.org>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<form>
+    <fields name="filter">
+        <field
+            name="search"
+            type="text"
+            label="COM_BANNERS_SEARCH_IN_TITLE"
+            hint="JSEARCH_FILTER"
+            class="js-stools-search-string"
+	/>
+	<!--field
+            name="published"
+            type="status"
+            label="JOPTION_SELECT_PUBLISHED"
+            description="JOPTION_SELECT_PUBLISHED_DESC"
+            onchange="this.form.submit();"
+            >
+            <option value="">JOPTION_SELECT_PUBLISHED</option>
+        </field-->
+    </fields>
+    <!--fields name="list">
+        <field
+            name="limit"
+            type="limitbox"
+            class="input-mini"
+            default="25"
+            label="COM_CONTENT_LIST_LIMIT"
+            description="COM_HELLOWORLD_LIST_LIMIT_DESC"
+            onchange="this.form.submit();"
+        />
+    </fields-->
+</form>

@@ -34,21 +34,57 @@ defined('_JEXEC') or die('Restricted access');
  */
 class SrcCheckModelManage extends JModelList
 {
-	/**
-	 * Method to build an SQL query to load the list data.
-	 *
-	 * @return      string  An SQL query
-	 */
-	protected function getListQuery()
-	{
-		// Initialize variables.
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
+    /**
+     * Constructor.
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     */
+    public function __construct($config = array())
+    {
+    	if (empty($config['filter_fields']))
+    	{
+            $config['filter_fields'] = array(
+            	'path',
+            	'filename',
+            	'status',
+                'veryfied'
+            );
+    	}
+        
+    	parent::__construct($config);
+    }
 
-		// Create the base select statement.
-		$query->select('*')
-                ->from($db->quoteName('#__crc_files'));
+    /**
+     * Method to build an SQL query to load the list data.
+     *
+     * @return      string  An SQL query
+     */
+    protected function getListQuery()
+    {
+    	// Initialize variables.
+    	$db    = JFactory::getDbo();
+    	$query = $db->getQuery(true);
 
-		return $query;
-	}
+        // Create the base select statement.
+    	$query->select('cf.path AS path, cf.filename AS filename, cf.status AS status')
+              ->from($db->quoteName('#__crc_files', 'cf'));
+        
+        $query->select($db->quoteName('cc.veryfied', 'veryfied'))
+              ->join('LEFT', $db->quoteName('#__crc_check', 'cc') . ' ON cc.crc_files_id = cf.id');
+
+        $query->select( 'MAX(cch.id) AS last_check_id')
+              ->join('LEFT', $db->quoteName('#__crc_check_history', 'cch') . ' ON cch.id = cc.crc_check_history_id');
+
+        $query->group($db->quoteName(array('cf.path', 'cf.filename', 'cf.status', 'cc.veryfied')));
+
+        // Add the list ordering clause.
+	$orderCol	= $this->state->get('list.ordering', 'path');
+	$orderDirn 	= $this->state->get('list.direction', 'asc');
+
+        $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+
+//echo $query;
+        return $query;
+    }
 }

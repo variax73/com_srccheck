@@ -98,9 +98,6 @@ class com_SrcCheckInstallerScript
     {
         include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'crc_lib.php');
 
-//        echo "type=".$type."<br>";
-//        echo "parent=".var_dump($parent)."<br>";
-
         if($type == "install"){
             generate_crc_tmp( JPATH_ROOT );
             update_crc_from_tmp(TRUE);
