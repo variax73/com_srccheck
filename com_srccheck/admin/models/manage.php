@@ -84,8 +84,7 @@ class SrcCheckModelManage extends JModelList
         if (!empty($search))
         {
             $like = $db->quote('%' . $search . '%');
-            $query->where('cf.path LIKE ' . $like);
-            $query->orwhere('cf.filename LIKE ' . $like);
+            $query->where( '((cf.path LIKE ' . $like . ') OR (cf.filename LIKE ' . $like . '))');
         }
 
         // Filtered by file status
