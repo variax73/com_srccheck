@@ -31,24 +31,33 @@ include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEP
 
 class SrcCheckControllerSrcChecks extends JControllerAdmin
 {
+    public function __construct($config = array())
+    {
+        parent::__construct($config);
+    }
 
-    	public function __construct($config = array())
-	{
-		parent::__construct($config);
-	}
+    public function verify()
+    {
+        $db = JFactory::getDbo();
+        $db->transactionStart();
 
-        public function verify()
-	{
-            $db = JFactory::getDbo();
-            $db->transactionStart();
+        generate_crc_tmp( JPATH_ROOT );
+        update_crc_from_tmp(false);
+        update_veryfied_crc();
 
-            generate_crc_tmp( JPATH_ROOT );
-            update_crc_from_tmp(false);
-            update_veryfied_crc();
+        $db->transactionCommit();
 
-            $db->transactionCommit();
+        // Display the view
+        parent::display($tpl);
+    }
 
-            // Display the view
-            parent::display($tpl);
-        }
-}
+    public function valid()
+    {
+        $ids  = $this->input->get('cid', array(), 'array');
+        
+        validate_checked_files( $ids );
+
+        parent::display($tpl);
+    }
+}   
+                

@@ -60,6 +60,8 @@ class SrcCheckViewSrcChecks extends JViewLegacy
 
                 // Set the document
 		$this->setDocument();
+                
+                $this->sidebar = JHtmlSidebar::render();
 
                 // Display the template
 		parent::display($tpl);

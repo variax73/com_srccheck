@@ -31,7 +31,7 @@ defined('_JEXEC') or die('Restricted Access');
 
 <form action="index.php?option=com_srccheck&view=srcchecks" method="post" id="adminForm" name="adminForm">
     <div id="j-sidebar-container" class="span2">
-        <?php echo JHtmlSidebar::render(); ?>
+        <?php echo $this->sidebar; ?>
     </div>
     <div id="j-main-container" class="span10">
         <table class="table table-striped table-hover">

@@ -52,7 +52,7 @@ class SrcCheckModelManage extends JModelList
             );
     	}
         
-    	parent::__construct($config);
+   	parent::__construct($config);
     }
 
     /**
@@ -71,12 +71,13 @@ class SrcCheckModelManage extends JModelList
               ->from($db->quoteName('#__crc_files', 'cf'));
         
         $query->select($db->quoteName('cc.veryfied', 'veryfied'))
-              ->join('LEFT', $db->quoteName('#__crc_check', 'cc') . ' ON cc.crc_files_id = cf.id');
+              ->select($db->quoteName('cc.id', 'check_id'))
+              ->join('LEFT', $db->quoteName('#__crc_check', 'cc') . ' ON cc.crc_files_id = cf.id AND (cc.crc_files_id, cc.crc_check_history_id) IN (select cct.crc_files_id, MAX(cct.crc_check_history_id) FROM #__crc_check AS cct group by cct.crc_files_id)' );
 
-        $query->select( 'MAX(cch.id) AS last_check_id')
+        $query->select( 'cch.id AS last_check_id')
               ->join('LEFT', $db->quoteName('#__crc_check_history', 'cch') . ' ON cch.id = cc.crc_check_history_id');
 
-        $query->group($db->quoteName(array('cf.path', 'cf.filename', 'cf.status', 'cc.veryfied')));
+//        $query->group($db->quoteName(array('cf.path', 'cf.filename', 'cf.status')));
 
         // Filter: like / search
         $search = $this->getState('filter.search');

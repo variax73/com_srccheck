@@ -66,7 +66,9 @@ class SrcCheckViewManage extends JViewLegacy
             
             // Set the document
             $this->setDocument();
-                        
+
+            $this->sidebar = JHtmlSidebar::render();                        
+
             // Display the view
             parent::display($tpl);
 	}
@@ -82,6 +84,7 @@ class SrcCheckViewManage extends JViewLegacy
             JToolbarHelper::title(JText::_('COM_SRCCHECK_ADMINISTRATION_MANAGE'));
 
             JToolbarHelper::custom('srcchecks.verify',null,null,'COM_SRCCHECK_BTN_VERIFY',false);
+            JToolbarHelper::checkin('srcchecks.valid','COM_SRCCHECK_BTN_VALID',true);
 
             // Options button.
             if (JFactory::getUser()->authorise('core.admin', 'com_srccheck')) 
@@ -97,6 +100,6 @@ class SrcCheckViewManage extends JViewLegacy
 	protected function setDocument() 
 	{
 		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_SRCCHECK_ADMINISTRATION'));
+		$document->setTitle(JText::_('COM_SRCCHECK_ADMINISTRATION_MANAGE'));
 	}
 }

@@ -27,6 +27,8 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+// Set some global property
+$document = JFactory::getDocument();
 //$document->addStyleDeclaration('.icon-helloworld {background-image: url(../media/com_helloworld/images/tux-16x16.png);}');
 
 

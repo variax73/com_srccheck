@@ -36,6 +36,9 @@ define( 'FILE_STATUS_NEW'       ,'0');
 define( 'FILE_STATUS_VERIFIED'  ,'1');
 define( 'FILE_STATUS_DELETED'   ,'2');
 
+define( 'FILE_CHECKED_STATUS_INVALID'   ,'0');
+define( 'FILE_CHECKED_STATUS_VALID'     ,'1');
+
 function listFilesTree( $dir, &$result = array() ){
     $files = scandir($dir);
     foreach($files as $key => $value)
@@ -166,4 +169,44 @@ function update_veryfied_crc(){
     $query = "UPDATE #__crc_check ccc, #__crc_check ccp, (SELECT max(cid.id) c_id, max(pid.id) p_id FROM #__crc_check_history cid, #__crc_check_history pid WHERE pid.id < cid.id) ids SET ccc.veryfied = ".FILE_STATUS_VERIFIED." WHERE ccc.crc_check_history_id = ids.c_id AND ccp.crc_check_history_id = ids.p_id AND ccc.crc_files_id = ccp.crc_files_id AND ccc.crc = ccp.crc AND ccp.veryfied = ".FILE_STATUS_VERIFIED.";";
     $db->setQuery($query);
     $db->execute();
+}
+
+function validate_checked_files( $crc_check_id )
+{
+//echo "Start Function: validate_checked_files <br>";
+    // Get a db connection.
+    $db = JFactory::getDbo();
+    $db->transactionStart();
+
+    $i=0;
+    foreach ($crc_check_id AS $cci)
+    {
+        $tmp_cci[i]=$cci;
+        
+        if( $i++ > 400 )
+        {
+
+            // Create a new query object.
+            $query = $db->getQuery(true);
+            $query  -> update($db->quoteName( '#__crc_check', 'cc' ))
+                    -> set($db->quoteName('cc.veryfied') . " = " . FILE_CHECKED_STATUS_VALID )
+                    -> where("cc.id IN (" . implode(',', array_map(fn($n) => $db->q($n), $crc_check_id)) . ")");
+
+//echo "<br>111 " . $query . "<br>";
+            $db->setQuery($query);
+            $db->execute();
+            $i=0;
+        }
+    }
+    // Create a new query object.
+    $query = $db->getQuery(true);
+    $query  -> update($db->quoteName( '#__crc_check', 'cc' ))
+        -> set($db->quoteName('cc.veryfied') . " = " . FILE_CHECKED_STATUS_VALID )
+        -> where("cc.id IN (" . implode(',', array_map(fn($n) => $db->q($n), $crc_check_id)) . ")");
+
+//echo "<br>222 " . $query . "<br>";
+    $db->setQuery($query);
+    $db->execute();
+    $db->transactionCommit();
+//echo "End Function: validate_checked_files <br>";
 }

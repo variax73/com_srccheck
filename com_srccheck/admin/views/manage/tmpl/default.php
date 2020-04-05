@@ -27,7 +27,7 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
 
-JHtml::_('formbehavior.chosen', 'select');
+// JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder     = $this->escape($this->filter_order);
 $listDirn      = $this->escape($this->filter_order_Dir);
@@ -35,7 +35,7 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 
 <form action="index.php?option=com_srccheck&view=manage" method="post" id="adminForm" name="adminForm">
     <div id="j-sidebar-container" class="span2">
-        <?php echo JHtmlSidebar::render(); ?>
+        <?php echo $this->sidebar; ?>
     </div>
     <div id="j-main-container" class="span10">
         <div class="row-fluid">
@@ -86,7 +86,7 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 							<?php //echo $this->pagination->getRowOffset($i); ?>
 						</td>
 -->						<td>
-							<?php echo JHtml::_('grid.id', $i, $row->id); ?>
+							<?php echo JHtml::_('grid.id', $i, $row->check_id); ?>
 						</td>
 						<td>
 							<?php echo $row->path; ?>
@@ -132,6 +132,7 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 		</tbody>
 	</table>
        	<input type="hidden" name="task" value=""/>
+        <input type="hidden" name="boxchecked" value="0"/>
        	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>"/>
 	<?php echo JHtml::_('form.token'); ?>

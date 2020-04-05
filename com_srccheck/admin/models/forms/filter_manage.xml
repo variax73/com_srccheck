@@ -47,14 +47,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <option value="1">COM_SRCCHECK_VALID_STATUS_FILE</option>
         </field>
     </fields>
+
     <fields name="list">
         <field
             name="limit"
             type="limitbox"
             class="input-mini"
             default="25"
-            label="COM_CONTENT_LIST_LIMIT"
-            description="COM_HELLOWORLD_LIST_LIMIT_DESC"
+            label="COM_SRCCHECK_LIST_LIMIT"
+            description="COM_SRCCHECK_LIST_LIMIT_DESC"
             onchange="this.form.submit();"
         />
     </fields>
