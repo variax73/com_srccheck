@@ -59,5 +59,14 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
 
         parent::display($tpl);
     }
+
+    public function erase()
+    {
+        $ids  = $this->input->get('cid', array(), 'array');
+        
+        erase_checked_files( $ids );
+
+        parent::display($tpl);
+    }
 }   
                 

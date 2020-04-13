@@ -67,7 +67,7 @@ class SrcCheckModelManage extends JModelList
     	$query = $db->getQuery(true);
 
         // Create the base select statement.
-    	$query->select('cf.path AS path, cf.filename AS filename, cf.status AS status')
+    	$query->select('cf.id AS file_id, cf.path AS path, cf.filename AS filename, cf.status AS status')
               ->from($db->quoteName('#__crc_files', 'cf'));
         
         $query->select($db->quoteName('cc.veryfied', 'veryfied'))

@@ -79,7 +79,7 @@ class SrcCheckViewSrcChecks extends JViewLegacy
 
             if ($this->canDo->get('srcchecks.verify')) 
             {
-                JToolbarHelper::custom('srcchecks.verify',null,null,'COM_SRCCHECK_BTN_VERIFY',false);
+                JToolbarHelper::custom('srcchecks.verify', 'refresh.png', null, 'COM_SRCCHECK_BTN_VERIFY',false);
             }
 
             // Options button.

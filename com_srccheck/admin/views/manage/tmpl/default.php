@@ -86,7 +86,9 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 							<?php //echo $this->pagination->getRowOffset($i); ?>
 						</td>
 -->						<td>
-							<?php echo JHtml::_('grid.id', $i, $row->check_id); ?>
+							<?php
+                                                            echo JHtml::_('grid.id', $i, $row->file_id);
+                                                        ?>
 						</td>
 						<td>
 							<?php echo $row->path; ?>
