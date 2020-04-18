@@ -2,7 +2,7 @@
 <extension type="component" version="3.0" method="upgrade">
 
 	<name>COM_SRCCHECK</name>
-	<creationDate>March 2020</creationDate>
+	<creationDate>April 2020</creationDate>
 	<author>Maciej Bednarski</author>
 	<authorEmail>maciek.bednarski@gmail.com</authorEmail>
 	<copyright>COM_COPYRIGHT</copyright>
