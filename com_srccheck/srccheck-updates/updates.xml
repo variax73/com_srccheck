@@ -15,7 +15,7 @@
 <updates>
 	<update>
 		<name>Src Check component</name>
-		<description>COM_SRCCHECK_DESCRIPTION</description>
+		<description>Source Check is a component that verifies if Joomla files have changed.</description>
 		<element>com_srccheck</element>
 		<type>component</type>
 		<version>1.0.0</version>
