@@ -6,14 +6,11 @@
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
  * @license   GNU General Public License version 3, or later
- * @version   HEAD
+ * @version   1.0.0
  ************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
-
-// JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder     = $this->escape($this->filter_order);
 $listDirn      = $this->escape($this->filter_order_Dir);
@@ -38,8 +35,7 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 	<table class="table table-striped table-hover">
                 <thead>
 		<tr>
-<!-- 			<th width="1%"><?php //echo JText::_('COM_SRECCHECK_NUM'); ?></th>
--->			<th width="2%">
+			<th width="2%">
 				<?php echo JHtml::_('grid.checkall'); ?>
 			</th>
 			<th width="50%">
@@ -68,10 +64,7 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 				<?php foreach ($this->items as $i => $row) : ?>
 
 					<tr>
-<!--						<td>
-							<?php //echo $this->pagination->getRowOffset($i); ?>
-						</td>
--->						<td>
+						<td>
 							<?php
                                                             echo JHtml::_('grid.id', $i, $row->file_id);
                                                         ?>
@@ -101,7 +94,6 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 						</td>
 						<td align="center">
 							<?php
-//                                                            echo JText::_($row->last_check_id);
                                                             switch ($row->veryfied) {
                                                                 case 0:
                                                                     echo JText::_('COM_SRCCHECK_INVALID_STATUS_FILE');
@@ -126,5 +118,3 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 	<?php echo JHtml::_('form.token'); ?>
     </div>
 </form>
-
-
