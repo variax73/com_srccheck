@@ -56,6 +56,8 @@
             <languages folder="admin/language">
                 <language tag="en-GB">en-GB/en-GB.com_srccheck.ini</language>
                 <language tag="en-GB">en-GB/en-GB.com_srccheck.sys.ini</language>
+                <language tag="pl-PL">pl-PL/pl-PL.com_srccheck.ini</language>
+                <language tag="pl-PL">pl-PL/pl-PL.com_srccheck.sys.ini</language>
             </languages>
         </administration>
         	 <updateservers>
