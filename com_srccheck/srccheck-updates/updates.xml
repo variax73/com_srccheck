@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright (C) 2020 Your Name <your.name at your.org>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/**
+ ************************************************************************
+ Source Check - module that verifies the integrity of Joomla files
+ ************************************************************************
+ * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
+ * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
+ * @license   GNU General Public License version 3, or later
+ * @version   1.0.1
+ ************************************************************************
+ */
 -->
-
 
 <updates>
 	<update>
@@ -23,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<description>Source Check is a component that verifies if Joomla files have changed.</description>
 		<element>com_srccheck</element>
 		<type>component</type>
-		<version>0.0.3</version>
+		<version>1.0.1</version>
 		<infourl>http://f2y.org/joomla/com_srccheck/updates/info.html</infourl>
 		<downloads>
 			<downloadurl type="full" format="zip">http://f2y.org/joomla/com_srccheck/updates/com_srccheck.zip</downloadurl>

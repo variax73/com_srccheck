@@ -6,7 +6,7 @@
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
  * @license   GNU General Public License version 3, or later
- * @version   HEAD
+ * @version   1.0.1
  ************************************************************************
  */
 
@@ -35,10 +35,7 @@ abstract class SrcCheckHelper extends JHelperContent
             $submenu == 'manage'
         );
 
-        // Set some global property
         $document = JFactory::getDocument();
-//        $document->addStyleDeclaration('.icon-48-helloworld ' .
-//            '{background-image: url(../media/com_helloworld/images/tux-48x48.png);}');
 
         if ($submenu == 'manage') 
         {

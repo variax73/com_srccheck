@@ -6,13 +6,11 @@
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
  * @license   GNU General Public License version 3, or later
- * @version   HEAD
+ * @version   1.0.1
  ************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
-
 ?>
 
 <form action="index.php?option=com_srccheck&view=srcchecks" method="post" id="adminForm" name="adminForm">
