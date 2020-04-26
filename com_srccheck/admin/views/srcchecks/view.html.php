@@ -39,8 +39,8 @@ class SrcCheckViewSrcChecks extends JViewLegacy
 		}
 
                 // Set the submenu
-		SrcCheckHelper::addSubmenu('srcchecks');
-
+                SrcCheckHelper::addSubmenu('srcchecks');
+                
                 // Set the toolbar
 		$this->addToolBar();
 
@@ -63,7 +63,7 @@ class SrcCheckViewSrcChecks extends JViewLegacy
 	{
             JToolbarHelper::title(JText::_('COM_SRCCHECH_MANAGER_TITLE'));
 
-            if ($this->canDo->get('srcchecks.verify')) 
+            if ($this->canDo->get('srccheck.verify')) 
             {
                 JToolbarHelper::custom('srcchecks.verify', 'refresh.png', null, 'COM_SRCCHECK_BTN_VERIFY',false);
             }
@@ -74,7 +74,7 @@ class SrcCheckViewSrcChecks extends JViewLegacy
                 JToolBarHelper::preferences('com_srccheck');
             }
 	}
-        	/**
+        /*
 	 * Method to set up the document properties
 	 *
 	 * @return void

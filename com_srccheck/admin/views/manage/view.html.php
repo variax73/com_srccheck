@@ -37,6 +37,10 @@ class SrcCheckViewManage extends JViewLegacy
             $this->filterForm    	= $this->get('FilterForm');
             $this->activeFilters 	= $this->get('ActiveFilters');
 
+
+            // What Access Permissions does this user have? What can (s)he do?
+            $this->canDo = JHelperContent::getActions('com_srccheck');
+                
             // Check for errors.
             if (count($errors = $this->get('Errors')))
             {
@@ -70,9 +74,18 @@ class SrcCheckViewManage extends JViewLegacy
 
             JToolbarHelper::title(JText::_('COM_SRCCHECK_ADMINISTRATION_MANAGE'));
 
-            JToolbarHelper::custom('srcchecks.verify', 'refresh.png', null, 'COM_SRCCHECK_BTN_VERIFY',false);
-            JToolbarHelper::custom('srcchecks.valid', 'checkin.png', null, 'COM_SRCCHECK_BTN_VALID',true);
-            JToolbarHelper::custom('srcchecks.erase', 'cancel.png', null, 'COM_SRCCHECK_BTN_ERASE',true);
+            if ($this->canDo->get('srccheck.verify')) 
+            {
+                JToolbarHelper::custom('srcchecks.verify', 'refresh.png', null, 'COM_SRCCHECK_BTN_VERIFY',false);
+            }
+            if ($this->canDo->get('srccheck.valid')) 
+            {
+                JToolbarHelper::custom('srcchecks.valid', 'checkin.png', null, 'COM_SRCCHECK_BTN_VALID',true);
+            }
+            if ($this->canDo->get('srccheck.erase')) 
+            {
+                JToolbarHelper::custom('srcchecks.erase', 'cancel.png', null, 'COM_SRCCHECK_BTN_ERASE',true);
+            }
 
             // Options button.
             if (JFactory::getUser()->authorise('core.admin', 'com_srccheck')) 
