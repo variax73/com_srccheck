@@ -66,6 +66,7 @@ if ($zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE)!==TRUE) {
 }
 
 addDirToZip( "admin", $zip );
+addDirToZip( "site", $zip );
 
 $zip->addFile("srccheck.xml");
 $zip->addFile("script.php");

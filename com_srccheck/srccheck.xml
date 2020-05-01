@@ -7,7 +7,7 @@
 	<authorEmail>maciek.bednarski@gmail.com</authorEmail>
 	<copyright>COM_COPYRIGHT</copyright>
 	<license>COM_LICENSE</license>
-	<version>0.0.5</version>
+	<version>1.0.4</version>
 	<description>COM_SRCCHECK_DESCRIPTION</description>
 
 	<!-- Runs on install/uninstall/update; New in 2.5 -->
@@ -62,8 +62,15 @@
                 <language tag="de-DE">de-DE/de-DE.com_srccheck.sys.ini</language>
             </languages>
         </administration>
-        	 <updateservers>
-		<!-- Change the URL below to match that of your own update XML file -->
-		<server type="extension" name="Source Check Updates">http://f2y.org/joomla/com_srccheck/updates/updates.xml</server>
+        <files folder="site">
+            <filename>index.html</filename>
+            <filename>srccheck.php</filename>
+            <filename>controller.php</filename>
+            <!-- controllers files section -->
+            <folder>controllers</folder>
+        </files>
+       	<updateservers>
+            <!-- Change the URL below to match that of your own update XML file -->
+            <server type="extension" name="Source Check Updates">http://f2y.org/joomla/com_srccheck/updates/updates.xml</server>
 	</updateservers>
 </extension>

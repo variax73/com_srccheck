@@ -26,6 +26,9 @@ define( 'FILE_STATUS_DELETED'   ,'2');
 define( 'FILE_CHECKED_STATUS_INVALID'   ,'0');
 define( 'FILE_CHECKED_STATUS_VALID'     ,'1');
 
+define( 'SILENCE_MODE'          ,'1');
+define( 'NORMAL_MODE'           ,'2');
+
 function listFilesTree( $dir, &$result = array() ){
     $files = scandir($dir);
     foreach($files as $key => $value)
@@ -104,12 +107,13 @@ function generate_crc_tmp( $dir ){
 }
 
 function update_crc_from_tmp($veryfied=0){
-
+//echo "update_crc_from_tmp: START<br>";
     if(!$veryfied) $veryfied=FILE_STATUS_NEW;
 
     // Update CRC information
     // Get a db connection.
     $db = JFactory::getDbo();
+//echo "update_crc_from_tmp: 1<br>";
 
     /*
      * Add new files
@@ -118,14 +122,17 @@ function update_crc_from_tmp($veryfied=0){
     $query = "INSERT INTO #__crc_files (path, filename, status) SELECT path, filename,".$veryfied." FROM #__crc_tmp ct LEFT JOIN #__crc_files cf USING (path, filename) WHERE cf.filename is NULL;";
     $db->setQuery($query);
     $db->execute();
+//echo "update_crc_from_tmp: 2<br>";
 
     /*
      * Add date check to history
      */
     $query = $db->getQuery(true);
     $query = "INSERT INTO #__crc_check_history (users_id) VALUES('".JFactory::getUser()->get('id')."');";
+//    $query = "INSERT INTO #__crc_check_history (users_id) VALUES('949');";
     $db->setQuery($query);
     $db->execute();
+//echo "update_crc_from_tmp: 3<br>";
 
     /*
      * Write check data from tmp table to check table
@@ -134,6 +141,7 @@ function update_crc_from_tmp($veryfied=0){
     $query = "INSERT INTO #__crc_check (crc_files_id, crc, veryfied, crc_check_history_id) SELECT cf.id, ct.crc, ".$veryfied.", LAST_INSERT_ID() FROM #__crc_files cf, #__crc_tmp ct WHERE cf.path = ct.path AND cf.filename = ct.filename;";
     $db->setQuery($query);
     $db->execute();
+//echo "update_crc_from_tmp: 4<br>";
 
     /*
      * Update deleted files.
@@ -144,7 +152,7 @@ function update_crc_from_tmp($veryfied=0){
         $db->setQuery($query);
         $db->execute();
     }
-    
+//echo "update_crc_from_tmp: END<br>";
 }
 
 function update_veryfied_crc(){
@@ -208,7 +216,7 @@ function erase_checked_files( $crc_files_id )
     $db->execute();
 
     $db->transactionCommit();
-echo "End Function: erase_checked_files <br>";
+//echo "End Function: erase_checked_files <br>";
 };
 
 function validate_checked_files( $crc_files_id )

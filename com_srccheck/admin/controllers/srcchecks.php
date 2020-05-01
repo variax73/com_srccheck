@@ -23,7 +23,7 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
         parent::__construct($config);
     }
 
-    public function verify()
+    public function verify( $mode = NORMAL_MODE )
     {
         $db = JFactory::getDbo();
         $db->transactionStart();
@@ -31,11 +31,13 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
         generate_crc_tmp( JPATH_ROOT );
         update_crc_from_tmp(false);
         update_veryfied_crc();
-
         $db->transactionCommit();
 
         // Display the view
-        parent::display($tpl);
+        if( $mode != SILENCE_MODE )
+        {
+            parent::display($tpl);
+        }
     }
 
     public function valid()
