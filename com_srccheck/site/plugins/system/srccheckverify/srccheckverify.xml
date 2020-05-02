@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ ************************************************************************
+ Source Check - module that verifies the integrity of Joomla files
+ ************************************************************************
+ * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
+ * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
+ * @license   GNU General Public License version 3, or later
+ * @version   HEAD
+ ************************************************************************
+ */
+-->
+
+<extension version="3.1" type="plugin" group="system" method="upgrade">
+	<name>plg_system_srccheckverify</name>
+	<author>Maciej Bednarski</author>
+	<creationDate>May 2020</creationDate>
+	<copyright>COM_COPYRIGHT</copyright>
+	<license>COM_LICENSE</license>
+	<authorEmail>maciek.bednarski@gmail.com</authorEmail>
+	<authorUrl>www.f2y.org</authorUrl>
+	<version>1.0.0</version>
+	<description>PLG_SRCCHECKVERIFY_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="srccheckverify">srccheckverify.php</filename>
+	</files>
+<!--
+        <languages>
+		<language tag="en-GB">en-GB.plg_system_srccheckverify.ini</language>
+		<language tag="en-GB">en-GB.plg_system_srccheckverify.sys.ini</language>
+	</languages>
+-->
+        <config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="browsercache"
+					type="radio"
+					label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
+					description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="exclude_menu_items"
+					type="menuitem"
+					label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
+					description="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_DESC"
+					multiple="multiple"
+					filter="int_array"
+				/>
+
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="exclude"
+					type="textarea"
+					label="PLG_CACHE_FIELD_EXCLUDE_LABEL"
+					description="PLG_CACHE_FIELD_EXCLUDE_DESC"
+					class="input-xxlarge"
+					rows="15"
+					filter="raw"
+				/>
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>
