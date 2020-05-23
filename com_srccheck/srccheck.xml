@@ -69,6 +69,9 @@
             <!-- controllers files section -->
             <folder>controllers</folder>
         </files>
+        <files>
+            <file type="plugin" id="srccheckverify" group="system">plg_system_srccheckverify.zip</file>
+        </files>
        	<updateservers>
             <!-- Change the URL below to match that of your own update XML file -->
             <server type="extension" name="Source Check Updates">http://f2y.org/joomla/com_srccheck/updates/updates.xml</server>
