@@ -14,6 +14,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.'srcchecks.php');
+include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'bg_lib.php');
 
 class PlgSystemSrcCheckVerify extends JPlugin
 {
@@ -67,11 +68,12 @@ class PlgSystemSrcCheckVerify extends JPlugin
 	public function onAfterRespond()
 	{
             echo "PlgSystemSrcCheckVerify [After respond]: START<br>";
-            $pid = pcntl_fork();
-            echo "PlgSystemSrcCheckVerify [After respond]: pid = " . $pid . "<br>";
-            
-            $ver = new SrcCheckControllerSrcChecks;
-            $ver->verify(SILENCE_MODE );
+            bg_run( "php" );
+//            echo "PlgSystemSrcCheckVerify [After respond]: pid = " . $pid . "<br>";
+//            
+//            $ver = new SrcCheckControllerSrcChecks;
+//            $ver->verify(SILENCE_MODE );
+
             echo "PlgSystemSrcCheckVerify [After respond]: STOP<br>";
         }
 } 
