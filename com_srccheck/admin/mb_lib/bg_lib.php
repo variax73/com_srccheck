@@ -31,8 +31,8 @@ echo "BG_RUN: START<br>";
         case "WINNT":
         case "Windows":
 echo "BG_RUN: Windows case<br>";
-            $command = 'start cmd /c "'. $command . '"';
-//            $command = 'start '. $command . ' >> php_out.txt';
+//            $command = 'start start cmd /c "'. $command . '"';
+//            $command = 'start start '. $command . ' >> php_out.txt';
             break;
         case "Linux":
         case "Unix":
