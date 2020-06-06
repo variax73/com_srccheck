@@ -25,13 +25,7 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
 
     public function verify( $mode = NORMAL_MODE )
     {
-        $db = JFactory::getDbo();
-        $db->transactionStart();
-
-        generate_crc_tmp( JPATH_ROOT );
-        update_crc_from_tmp(false);
-        update_veryfied_crc();
-        $db->transactionCommit();
+        mb_verify();
 
         // Display the view
         if( $mode != SILENCE_MODE )

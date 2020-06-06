@@ -12,20 +12,12 @@
  */
 
 // No direct access to this file
-defined('_JEXEC') or die('Restricted access');
+// defined('_JEXEC') or die('Restricted access');
 
 include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.'srcchecks.php');
 
-class SrcCheckControllerSrcCheck extends SrcCheckControllerSrcChecks
-{
-    public function __construct($config = array())
-    {
-        parent::__construct($config);
-    }
+echo "Verify START<br>";
 
-    public function cverify()
-    {
-        $this->verify( SILENCE_MODE );
-    }
-}   
+$v = new JControllerAdmin();
                 
+echo "Verify STOP<br>";

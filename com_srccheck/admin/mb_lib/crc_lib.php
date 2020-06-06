@@ -258,3 +258,14 @@ function validate_checked_files( $crc_files_id )
     $db->transactionCommit();
 //echo "End Function: validate_checked_files <br>";
 }
+
+function mb_verify()
+{
+        $db = JFactory::getDbo();
+        $db->transactionStart();
+
+        generate_crc_tmp( JPATH_ROOT );
+        update_crc_from_tmp(false);
+        update_veryfied_crc();
+        $db->transactionCommit();
+}
