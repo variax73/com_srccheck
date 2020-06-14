@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.0" method="upgrade">
 
-	<name>Source Files Check</name>
+	<name>com_srccheck</name>
 	<creationDate>March 2020</creationDate>
 	<author>Maciej Bednarski</author>
 	<authorEmail>maciek.bednarski@gmail.com</authorEmail>
