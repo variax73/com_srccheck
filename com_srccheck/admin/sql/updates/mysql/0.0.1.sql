@@ -1,11 +1,11 @@
 /**
  ************************************************************************
- Source Check - module that verifies the integrity of Joomla files
+ Source Files Check - module that verifies the integrity of Joomla files
  ************************************************************************
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
  * @license   GNU General Public License version 3, or later
- * @version   HEAD
+ * @version   1.0.2
  ************************************************************************
  */
 
@@ -35,7 +35,12 @@ CREATE TABLE IF NOT EXISTS `#__crc_check_history` (
   `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_crc_check_history_users_idx` (`users_id` ASC) VISIBLE)
+  INDEX `fk_crc_check_history_users_idx` (`users_id` ASC) VISIBLE,
+  CONSTRAINT `fk_crc_check_history_users`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `joomla`.`#__users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -55,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `#__crc_check` (
   `crc` VARCHAR(32) NOT NULL,
   `veryfied` TINYINT NOT NULL DEFAULT 0,
   `checked_out` INT(10) NOT NULL DEFAULT 0,
-  `checked_out_time` DATETIME NOT NULL DEFAULT 0000-00-00 00:00:00,
+  `checked_out_time` DATETIME NOT NULL,
   `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `crc_files_id` BIGINT UNSIGNED NOT NULL,
   `crc_check_history_id` BIGINT UNSIGNED NOT NULL,

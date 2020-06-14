@@ -1,11 +1,11 @@
 /**
  ************************************************************************
- Source Check - module that verifies the integrity of Joomla files
+ Source Files Check - module that verifies the integrity of Joomla files
  ************************************************************************
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
  * @license   GNU General Public License version 3, or later
- * @version   HEAD
+ * @version   1.0.2
  ************************************************************************
  */
 
@@ -31,11 +31,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `#__crc_check_history` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `users_id` INT(11) NOT NULL DEFAULT 0,
+  `users_id` INT(11) NOT NULL,
   `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_crc_check_history_users_idx` (`users_id` ASC) VISIBLE)
+  INDEX `fk_crc_check_history_users_idx` (`users_id` ASC) VISIBLE,
+  CONSTRAINT `fk_crc_check_history_users`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `joomla`.`#__users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -76,14 +81,14 @@ CREATE TABLE IF NOT EXISTS `#__crc_check` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- View `#__crc_v_summary`
+-- View `mydb`.`view1`
 -- -----------------------------------------------------
 CREATE  OR REPLACE VIEW `#__crc_v_summary` AS
 SELECT q1.*, q2.*, q3.*
   FROM
   (SELECT count(cf.filename) AS total_count_files, SUM(if(cf.status=0,1,0)) AS new_files, SUM(if(cf.status=2,1,0)) AS deleted_files FROM #__crc_files cf) q1,
   (SELECT SUM(if(cc.veryfied = 1,1,0)) AS count_veryfied_positive, SUM(if(cc.veryfied <> 1,1,0)) AS count_veryfied_negative FROM #__crc_check cc WHERE cc.crc_check_history_id = (SELECT max(ccf.id) FROM #__crc_check_history ccf)) q2,
-  (SELECT ccf.timestamp AS last_check_time, ccf.users_id AS user_id, IFNULL( u.username, 'Cron') AS user_login, IFNULL(u.name,'Cron') AS user_name FROM #__crc_check_history ccf LEFT JOIN #__users u ON ccf.users_id = u.id WHERE ccf.id = (SELECT MAX(tccf.id) FROM #__crc_check_history tccf)) q3;
+  (SELECT max(ccf.timestamp) as last_check_time, ccf.users_id as user_id, u.username as user_login, u.name as user_name FROM #__crc_check_history ccf, #__users u WHERE ccf.users_id = u.id) q3;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

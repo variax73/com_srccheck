@@ -10,50 +10,39 @@
 	<version>1.0.4</version>
 	<description>Source Files Check is a component that verifies if Joomla files have changed.</description>
 
-	<!-- Runs on install/uninstall/update; New in 2.5 -->
 	<scriptfile>script.php</scriptfile>
 
-	<install> <!-- Runs on install -->
+	<install>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
 		</sql>
 	</install>
-	<uninstall> <!-- Runs on uninstall -->
+	<uninstall>
 		<sql>
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
 
-        <update> <!-- Runs on update; New since J2.5 -->
+        <update>
 		<schemas>
 			<schemapath type="mysql">sql/updates/mysql</schemapath>
 		</schemas>
 	</update>
 
 	<administration>
-            <!-- Administration Menu Section -->
             <menu link='index.php?option=com_srccheck'>COM_SRCCHECK_MENU</menu>
             <files folder="admin">
-                <!-- Admin Main File Copy Section -->
 		<filename>index.html</filename>
                 <filename>config.xml</filename>
 		<filename>srccheck.php</filename>
                 <filename>controller.php</filename>
                 <filename>access.xml</filename>
-                <!-- SQL files section -->
 		<folder>sql</folder>
-                <!-- models files section -->
                 <folder>models</folder>
-                <!-- views files section -->
                 <folder>views</folder>
-                <!-- controllers files section -->
                 <folder>controllers</folder>
-                <!-- helpers files section -->
 		<folder>helpers</folder>
-		<!-- custom library files section -->
 		<folder>mb_lib</folder>
-		<!-- custom command files section -->
-		<folder>bin</folder>
             </files>
             <languages folder="admin/language">
                 <language tag="en-GB">en-GB/en-GB.com_srccheck.ini</language>
@@ -64,18 +53,7 @@
                 <language tag="de-DE">de-DE/de-DE.com_srccheck.sys.ini</language>
             </languages>
         </administration>
-        <files folder="site">
-            <filename>index.html</filename>
-            <filename>srccheck.php</filename>
-            <filename>controller.php</filename>
-            <!-- controllers files section -->
-            <folder>controllers</folder>
-        </files>
-        <files>
-            <file type="plugin" id="srccheckverify" group="system">plg_system_srccheckverify.zip</file>
-        </files>
        	<updateservers>
-            <!-- Change the URL below to match that of your own update XML file -->
             <server type="extension" name="Source Check Updates">http://f2y.org/joomla/com_srccheck/updates/updates.xml</server>
 	</updateservers>
 </extension>

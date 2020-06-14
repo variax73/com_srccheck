@@ -2,32 +2,17 @@
 <!--
 /**
  ************************************************************************
- Source Check - module that verifies the integrity of Joomla files
+ Source Files Check - module that verifies the integrity of Joomla files
  ************************************************************************
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
  * @license   GNU General Public License version 3, or later
- * @version   HEAD
+ * @version   1.0.2
  ************************************************************************
  */
 -->
+
 <config>
-    <!-- fieldset
-        name="configuration"
-        label="COM_SRCCHECK_CONFIG_LABEL"
-        description="COM_SRCCHECK_CONFIG_LABEL_DESC"
-    >
-        <field
-            name="show_category"
-            type="radio"
-            label="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_LABEL"
-            description="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_DESC"
-            default="0"
-        >
-            <option value="0">JHIDE</option>
-            <option value="1">JSHOW</option>
-        </field>
-    </fieldset -->
     <fieldset
         name="permissions"
         label="JCONFIG_PERMISSIONS_LABEL"

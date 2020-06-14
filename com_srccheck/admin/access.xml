@@ -2,12 +2,12 @@
 <!--
 /**
  ************************************************************************
- Source Check - module that verifies the integrity of Joomla files
+ Source Files Check - module that verifies the integrity of Joomla files
  ************************************************************************
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
  * @license   GNU General Public License version 3, or later
- * @version   HEAD
+ * @version   1.0.2
  ************************************************************************
  */
 -->
@@ -18,11 +18,5 @@
         <action name="srccheck.verify" title="COM_SRCCHECK_PERMISSION_VERIFY" description="COM_SRCCHECK_PERMISSION_DESC_VERIFY" />
         <action name="srccheck.valid" title="COM_SRCCHECK_PERMISSION_VALID" description="COM_SRCCHECK_PERMISSION_DESC_VALID" />
         <action name="srccheck.erase" title="COM_SRCCHECK_PERMISSION_ERASE" description="COM_SRCCHECK_PERMISSION_DESC_ERASE" />
-
-        <!-- action name="srcchecks.verify" title="JACTION_MANAGE" description="JACTION_SRCCHECKS_VERIFY_COMPONENT_DESC" />
 	</section>
-	<section name="summary">
-		<action name="srcchecks.verify" title="JACTION_MANAGE" description="JACTION_SRCCHECKS_VERIFY_COMPONENT_DESC" />
--->
-    </section>
  </access>

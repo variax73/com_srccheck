@@ -1,26 +1,19 @@
 <?php
 /**
  ************************************************************************
- Source Check - module that verifies the integrity of Joomla files
+ Source Files Check - module that verifies the integrity of Joomla files
  ************************************************************************
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
  * @license   GNU General Public License version 3, or later
- * @version   HEAD
+ * @version   1.0.2
  ************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
 abstract class SrcCheckHelper extends JHelperContent
 {
-    /**
-     * Configure the Linkbar.
-     *
-     * @return Bool
-     */
-
     public static function addSubmenu($submenu) 
     {
 	JHtmlSidebar::addEntry(
@@ -35,10 +28,7 @@ abstract class SrcCheckHelper extends JHelperContent
             $submenu == 'manage'
         );
 
-        // Set some global property
         $document = JFactory::getDocument();
-//        $document->addStyleDeclaration('.icon-48-helloworld ' .
-//            '{background-image: url(../media/com_helloworld/images/tux-48x48.png);}');
 
         if ($submenu == 'manage') 
         {

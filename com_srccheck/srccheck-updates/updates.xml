@@ -16,14 +16,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-
 <updates>
 	<update>
-		<name>Src Check component</name>
-		<description>Source Check is a component that verifies if Joomla files have changed.</description>
+		<name>Source Files Check</name>
+		<description>Source Files Check is a component that verifies if Joomla files have changed.</description>
 		<element>com_srccheck</element>
 		<type>component</type>
-		<version>0.0.3</version>
+		<version>1.0.2</version>
 		<infourl>http://f2y.org/joomla/com_srccheck/updates/info.html</infourl>
 		<downloads>
 			<downloadurl type="full" format="zip">http://f2y.org/joomla/com_srccheck/updates/com_srccheck.zip</downloadurl>
