@@ -1,12 +1,12 @@
 <?php
 /**
  ************************************************************************
- Source Files Check - module that verifies the integrity of Joomla files
+ Source Check - module that verifies the integrity of Joomla files
  ************************************************************************
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
  * @license   GNU General Public License version 3, or later
- * @version   HEAD
+ * @version   1.0.2
  ************************************************************************
  */
 
@@ -58,19 +58,6 @@ ftp_close($conn_id);
 
 echo "Start\n";
 
-//prepare plugin
-$zip = new ZipArchive();
-$filename = "plg_system_srccheckverify.zip";
-
-if ($zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE)!==TRUE) {
-    exit("cannot open <$filename>\n");
-}
-
-addDirToZip( "plg_system_srccheckverify", $zip );
-
-$zip->close();
-
-//Prepare componnet
 $zip = new ZipArchive();
 $filename = "com_srccheck.zip";
 
@@ -79,25 +66,10 @@ if ($zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE)!==TRUE) {
 }
 
 addDirToZip( "admin", $zip );
-addDirToZip( "site", $zip );
 
 $zip->addFile("srccheck.xml");
 $zip->addFile("script.php");
 $zip->addFile("index.html");
-
-$zip->close();
-
-//Prepare package
-$zip = new ZipArchive();
-$filename = "pkg_srccheck.zip";
-
-if ($zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE)!==TRUE) {
-    exit("cannot open <$filename>\n");
-}
-
-$zip->addFile("pkg_srccheck.xml");
-$zip->addFile("com_srccheck.zip");
-$zip->addFile("plg_system_srccheckverify.zip");
 
 $zip->close();
 
