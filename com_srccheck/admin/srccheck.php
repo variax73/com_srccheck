@@ -9,6 +9,7 @@
  * @version   1.0.0
  ************************************************************************
  */
+
 defined('_JEXEC') or die('Restricted access');
 
 $document = JFactory::getDocument();
@@ -17,11 +18,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_srccheck'))
 {
     throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
 }
-
 JLoader::register('SrcCheckHelper', JPATH_COMPONENT . '/helpers/srccheck.php');
-
 $controller = JControllerLegacy::getInstance('SrcCheck');
-
 $controller->execute(JFactory::getApplication()->input->get('task'));
-
 $controller->redirect();

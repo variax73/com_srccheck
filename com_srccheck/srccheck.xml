@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.0" method="upgrade">
 
-	<name>COM_SRCCHECK</name>
-	<creationDate>April 2020</creationDate>
+	<name>com_srccheck</name>
+	<creationDate>March 2020</creationDate>
 	<author>Maciej Bednarski</author>
 	<authorEmail>maciek.bednarski@gmail.com</authorEmail>
-	<copyright>COM_COPYRIGHT</copyright>
-	<license>COM_LICENSE</license>
+	<copyright>Copyright (C) 2020 Green Line. All Rights Reserved.</copyright>
+	<license>GNU General Public License version 3, or later.</license>
 	<version>1.0.0</version>
-	<description>COM_SRCCHECK_DESCRIPTION</description>
+	<description>Source Files Check is a component that verifies if Joomla files have changed.</description>
 
 	<scriptfile>script.php</scriptfile>
 

@@ -121,31 +121,31 @@ function erase_checked_files( $crc_files_id )
     $i=0;
     foreach ($crc_files_id AS $cci)
     {
-        $tmp_cci[i]=$cci;
+        $tmp_cci[$i]=$cci;
         
         if( $i++ > 400 )
         {
             $query = $db->getQuery(true);
             $query  -> delete($db->quoteName( '#__crc_check', 'cc' ))
-                    -> where( $db->quoteName( 'cc.crc_files_id' ) . ' IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') ' );
+                    -> where( $db->quoteName( 'cc.crc_files_id' ) . ' IN (' . implode(',',$tmp_cci) . ') ' );
             $db->setQuery($query);
             $db->execute();
             $query = $db->getQuery(true);
             $query  -> delete($db->quoteName( '#__crc_files', 'cf' ))
-                    -> where( $db->quoteName('cf.id') . ' IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') ' );
+                    -> where( $db->quoteName('cf.id') . ' IN (' . implode(',',$tmp_cci) . ') ' );
             $db->setQuery($query);
             $db->execute();
             $i=0;
         }
     }
     $query = $db->getQuery(true);
-    $query  -> delete($db->quoteName( '#__crc_check', 'cc' ))
-            -> where( $db->quoteName( 'cc.crc_files_id' ) . ' IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') ' );
+    $query  -> delete($db->quoteName( '#__crc_check'))
+            -> where( $db->quoteName( 'crc_files_id' ) . ' IN (' . implode(',',$tmp_cci) . ') ' );
     $db->setQuery($query);
     $db->execute();
     $query = $db->getQuery(true);
-    $query  -> delete($db->quoteName( '#__crc_files', 'cf' ))
-            -> where( $db->quoteName('cf.id') . ' IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') ' );
+    $query  -> delete($db->quoteName( '#__crc_files'))
+            -> where( $db->quoteName('id') . ' IN (' . implode(',',$tmp_cci) . ') ' );
     $db->setQuery($query);
     $db->execute();
     $db->transactionCommit();
@@ -158,13 +158,13 @@ function validate_checked_files( $crc_files_id )
     $i=0;
     foreach ($crc_files_id AS $cci)
     {
-        $tmp_cci[i]=$cci;
+        $tmp_cci[$i]=$cci;
         
         if( $i++ > 400 )
         {
             $query = $db->getQuery(true);
             $query  -> update($db->quoteName( '#__crc_check', 'ccu' ))
-                    -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
+                    -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',',$tmp_cci) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
                     -> set($db->quoteName('ccu.veryfied') . " = " . FILE_CHECKED_STATUS_VALID );
             $db->setQuery($query);
             $db->execute();
@@ -173,7 +173,7 @@ function validate_checked_files( $crc_files_id )
     }
     $query = $db->getQuery(true);
     $query  -> update($db->quoteName( '#__crc_check', 'ccu' ))
-            -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
+            -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',',$tmp_cci) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
             -> set($db->quoteName('ccu.veryfied') . " = " . FILE_CHECKED_STATUS_VALID );
     $db->setQuery($query);
     $db->execute();

@@ -10,17 +10,10 @@
  ************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
 abstract class SrcCheckHelper extends JHelperContent
 {
-    /**
-     * Configure the Linkbar.
-     *
-     * @return Bool
-     */
-
     public static function addSubmenu($submenu) 
     {
 	JHtmlSidebar::addEntry(
