@@ -55,6 +55,7 @@ function clear_crc_tmp(){
 }
 
 function generate_crc_tmp( $dir ){
+echo "generate_crc_tmp: START<br>";
 
     clear_crc_tmp();
     
@@ -104,16 +105,17 @@ function generate_crc_tmp( $dir ){
     // Set the query using our newly populated query object and execute it.
     $db->setQuery($query);
     $db->execute();
+echo "generate_crc_tmp: STOP<br>";
 }
 
 function update_crc_from_tmp($veryfied=0){
-//echo "update_crc_from_tmp: START<br>";
+echo "update_crc_from_tmp: START<br>";
     if(!$veryfied) $veryfied=FILE_STATUS_NEW;
 
     // Update CRC information
     // Get a db connection.
     $db = JFactory::getDbo();
-//echo "update_crc_from_tmp: 1<br>";
+echo "update_crc_from_tmp: 1<br>";
 
     /*
      * Add new files
@@ -122,7 +124,7 @@ function update_crc_from_tmp($veryfied=0){
     $query = "INSERT INTO #__crc_files (path, filename, status) SELECT path, filename,".$veryfied." FROM #__crc_tmp ct LEFT JOIN #__crc_files cf USING (path, filename) WHERE cf.filename is NULL;";
     $db->setQuery($query);
     $db->execute();
-//echo "update_crc_from_tmp: 2<br>";
+echo "update_crc_from_tmp: 2<br>";
 
     /*
      * Add date check to history
@@ -132,7 +134,7 @@ function update_crc_from_tmp($veryfied=0){
 //    $query = "INSERT INTO #__crc_check_history (users_id) VALUES('949');";
     $db->setQuery($query);
     $db->execute();
-//echo "update_crc_from_tmp: 3<br>";
+echo "update_crc_from_tmp: 3<br>";
 
     /*
      * Write check data from tmp table to check table
@@ -141,7 +143,7 @@ function update_crc_from_tmp($veryfied=0){
     $query = "INSERT INTO #__crc_check (crc_files_id, crc, veryfied, crc_check_history_id) SELECT cf.id, ct.crc, ".$veryfied.", LAST_INSERT_ID() FROM #__crc_files cf, #__crc_tmp ct WHERE cf.path = ct.path AND cf.filename = ct.filename;";
     $db->setQuery($query);
     $db->execute();
-//echo "update_crc_from_tmp: 4<br>";
+echo "update_crc_from_tmp: 4<br>";
 
     /*
      * Update deleted files.
@@ -152,7 +154,7 @@ function update_crc_from_tmp($veryfied=0){
         $db->setQuery($query);
         $db->execute();
     }
-//echo "update_crc_from_tmp: END<br>";
+echo "update_crc_from_tmp: END<br>";
 }
 
 function update_veryfied_crc(){
@@ -168,7 +170,7 @@ function update_veryfied_crc(){
 
 function erase_checked_files( $crc_files_id )
 {
-//echo "Start Function: erase_checked_files <br>";
+echo "Start Function: erase_checked_files <br>";
     // Get a db connection.
     $db = JFactory::getDbo();
     $db->transactionStart();
@@ -176,52 +178,53 @@ function erase_checked_files( $crc_files_id )
     $i=0;
     foreach ($crc_files_id AS $cci)
     {
-        $tmp_cci[i]=$cci;
-        
+        $tmp_cci[$i]=$cci;
+
         if( $i++ > 400 )
         {
             // Delete crc_check records.
             $query = $db->getQuery(true);
             $query  -> delete($db->quoteName( '#__crc_check', 'cc' ))
-                    -> where( $db->quoteName( 'cc.crc_files_id' ) . ' IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') ' );
-//echo "<br>111.1 " . $query . "<br>";
+                    -> where( $db->quoteName( 'cc.crc_files_id' ) . ' IN (' . implode(',',$tmp_cci) . ') ' );
+echo "<br>111.1 " . $query . "<br>";
             $db->setQuery($query);
             $db->execute();
 
             // Delete crc_files records.
             $query = $db->getQuery(true);
             $query  -> delete($db->quoteName( '#__crc_files', 'cf' ))
-                    -> where( $db->quoteName('cf.id') . ' IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') ' );
-//echo "<br>111.2 " . $query . "<br>";
+                    -> where( $db->quoteName('cf.id') . ' IN (' . implode(',',$tmp_cci) . ') ' );
+echo "<br>111.2 " . $query . "<br>";
             $db->setQuery($query);
             $db->execute();
             $i=0;
         }
     }
-
+    
     // Delete crc_check records.
     $query = $db->getQuery(true);
-    $query  -> delete($db->quoteName( '#__crc_check', 'cc' ))
-            -> where( $db->quoteName( 'cc.crc_files_id' ) . ' IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') ' );
-//echo "<br>222.1 " . $query . "<br>";
+    $query  -> delete($db->quoteName( '#__crc_check'))
+            -> where( $db->quoteName( 'crc_files_id' ) . ' IN (' . implode(',',$tmp_cci) . ') ' );
+echo "<br>222.1 " . $query . "<br>";
+// die();
     $db->setQuery($query);
     $db->execute();
 
     // Delete crc_files records.
     $query = $db->getQuery(true);
-    $query  -> delete($db->quoteName( '#__crc_files', 'cf' ))
-            -> where( $db->quoteName('cf.id') . ' IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') ' );
-//echo "<br>222.2 " . $query . "<br>";
+    $query  -> delete($db->quoteName( '#__crc_files'))
+            -> where( $db->quoteName('id') . ' IN (' . implode(',',$tmp_cci) . ') ' );
+echo "<br>222.2 " . $query . "<br>";
     $db->setQuery($query);
     $db->execute();
 
     $db->transactionCommit();
-//echo "End Function: erase_checked_files <br>";
+echo "End Function: erase_checked_files <br>";
 };
 
 function validate_checked_files( $crc_files_id )
 {
-//echo "Start Function: validate_checked_files <br>";
+echo "Start Function: validate_checked_files <br>";
     // Get a db connection.
     $db = JFactory::getDbo();
     $db->transactionStart();
@@ -229,7 +232,7 @@ function validate_checked_files( $crc_files_id )
     $i=0;
     foreach ($crc_files_id AS $cci)
     {
-        $tmp_cci[i]=$cci;
+        $tmp_cci[$i]=$cci;
         
         if( $i++ > 400 )
         {
@@ -237,10 +240,10 @@ function validate_checked_files( $crc_files_id )
             // Create a new query object.
             $query = $db->getQuery(true);
             $query  -> update($db->quoteName( '#__crc_check', 'ccu' ))
-                    -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
+                    -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',',$tmp_cci) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
                     -> set($db->quoteName('ccu.veryfied') . " = " . FILE_CHECKED_STATUS_VALID );
 
-//echo "<br>111 " . $query . "<br>";
+echo "<br>111 " . $query . "<br>";
             $db->setQuery($query);
             $db->execute();
             $i=0;
@@ -249,14 +252,14 @@ function validate_checked_files( $crc_files_id )
     // Create a new query object.
     $query = $db->getQuery(true);
     $query  -> update($db->quoteName( '#__crc_check', 'ccu' ))
-            -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',', array_map(fn($n) => $db->q($n), $crc_files_id)) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
+            -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',',$tmp_cci) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
             -> set($db->quoteName('ccu.veryfied') . " = " . FILE_CHECKED_STATUS_VALID );
-//echo "<br>222 " . $query . "<br>";
+echo "<br>222 " . $query . "<br>";
     $db->setQuery($query);
 
     $db->execute();
     $db->transactionCommit();
-//echo "End Function: validate_checked_files <br>";
+echo "End Function: validate_checked_files <br>";
 }
 
 function mb_verify()

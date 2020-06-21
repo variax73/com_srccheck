@@ -45,9 +45,13 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
 
     public function erase()
     {
+echo "Controllers srcchecks.erase: START<br>";
+
         $ids  = $this->input->get('cid', array(), 'array');
-        
+echo "Controllers srcchecks.erase: Step 1<br>";
+       
         erase_checked_files( $ids );
+echo "Controllers srcchecks.erase: STOP<br>";
 
         parent::display($tpl);
     }
