@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `#__crc_files` (
   `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` USING BTREE (`id`) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` USING BTREE (`id`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -30,8 +30,8 @@ CREATE TABLE IF NOT EXISTS `#__crc_check_history` (
   `users_id` INT NOT NULL DEFAULT 0,
   `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-  INDEX `fk_crc_check_history_users_idx` (`users_id` ASC) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  INDEX `fk_crc_check_history_users_idx` (`users_id` ASC))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -56,9 +56,9 @@ CREATE TABLE IF NOT EXISTS `#__crc_check` (
   `crc_files_id` BIGINT UNSIGNED NOT NULL,
   `crc_check_history_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) INVISIBLE,
-  INDEX `fk_crc_check_crc_files_idx` USING BTREE (`crc_files_id`) VISIBLE,
-  INDEX `fk_crc_check_crc_check_history_idx` USING BTREE (`crc_check_history_id`) VISIBLE,
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  INDEX `fk_crc_check_crc_files_idx` USING BTREE (`crc_files_id`),
+  INDEX `fk_crc_check_crc_check_history_idx` USING BTREE (`crc_check_history_id`),
   CONSTRAINT `fk_crc_check_crc_files`
     FOREIGN KEY (`crc_files_id`)
     REFERENCES `#__crc_files` (`id`)
