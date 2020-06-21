@@ -1,7 +1,7 @@
 <?php
 /**
  ************************************************************************
- Source Check - module that verifies the integrity of Joomla files
+ Source Files Check - module that verifies the integrity of Joomla files
  ************************************************************************
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
@@ -24,60 +24,40 @@ function addDirToZip( $dir, $zip ){
     }
 };
 
-function putFileToFtp($conn_id, $file){
-// upload a file
-    if (ftp_put($conn_id, $file, $file, FTP_BINARY)) {
-        echo "successfully uploaded $file\n";
+function copyDir($source, $dest){
+    if(is_dir($source)) {
+        $dir_handle=opendir($source);
+        while($file=readdir($dir_handle)){
+            if($file!="." && $file!=".."){
+                if(is_dir($source."/".$file)){
+                    if(!is_dir($dest."/".$file)){
+                        mkdir($dest."/".$file,0777,true);
+                    }
+                    copyDir($source."/".$file, $dest."/".$file);
+                } else {
+                    copy($source."/".$file, $dest."/".$file);
+                }
+            }
+        }
+        closedir($dir_handle);
     } else {
-        echo "There was a problem while uploading $file\n";
+        copy($source, $dest);
     }
-};
-
-function putUpdateToSerwer(){
-$ftp_server = "f2y.org";
-$ftp_user_name = "joomla@f2y.org";
-$ftp_user_pass = "{pL,<lO9*";
-
-// set up basic connection
-echo "Update file to serwer: >>".$ftp_server."<< user:>>".$ftp_user_name."<< pass:>>".$ftp_user_pass."<<\n";
-
-$conn_id = ftp_connect($ftp_server); // or die("Couldn't connect to $ftp_server"); 
-
-echo ">>".$conn_id ."<<";
-
-// login with username and password
-$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
-
-putFileToFtp($conn_id, "./srccheck-updates/info.html");
-putFileToFtp($conn_id, "./srccheck-updates/updates.xml");
-putFileToFtp($conn_id, "./srccheck-updates/com_srccheck.zip");
-
-// close the connection
-ftp_close($conn_id);
-};
+}
 
 echo "Start\n";
 
-$zip = new ZipArchive();
-$filename = "com_srccheck.zip";
+//Prepare componnet
+$filename = "com_srccheck";
 
-if ($zip->open($filename, ZipArchive::CREATE | ZipArchive::OVERWRITE)!==TRUE) {
-    exit("cannot open <$filename>\n");
-}
-
-addDirToZip( "admin", $zip );
-
-$zip->addFile("srccheck.xml");
-$zip->addFile("script.php");
-$zip->addFile("index.html");
-
-$zip->close();
-
+unlink($filename);
+echo "7z.exe a -tzip ".$filename.".zip ".$build_dir.DIRECTORY_SEPARATOR.$filename."\n";
+exec("7z.exe a -tzip ".$filename.".zip admin");
+exec("7z.exe a -tzip ".$filename.".zip srccheck.xml");
+exec("7z.exe a -tzip ".$filename.".zip script.php");
+exec("7z.exe a -tzip ".$filename.".zip index.html");
 
 if (!copy($filename, "./srccheck-updates/".$filename)) {
     echo "failed to copy $filename...\n";
 }
-
-//putUpdateToSerwer();
-
 echo "Stop\n";
