@@ -2,7 +2,7 @@
 
 /**
  ************************************************************************
- Source Files Check - module that verifies the integrity of Joomla files
+ Source Files Check - component that verifies the integrity of Joomla files
  ************************************************************************
  * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
  * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
