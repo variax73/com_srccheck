@@ -71,7 +71,17 @@ echo "Script.php update: START";
     public function preflight($type, $parent) 
     {
 echo "Script.php preflight: START";
+        echo '<p>' . JText::_('COM_SRCCHECK_PREFLIGHT_ENVIRONMENT_VERIFICATION') . '</p>';
+        if ( extension_loaded('zip'))
+        {
+            echo '<p>' . JText::_('COM_SRCCHECK_PREFLIGHT_ENVIRONMENT_VERIFICATION_ZIP_PRESENT') . '</p>';
+        }
+        else
+        {
+            echo '<p>' . JText::_('COM_SRCCHECK_PREFLIGHT_ENVIRONMENT_VERIFICATION_ZIP_ABSENT') . '</p>';
+        }
         echo '<p>' . JText::_('COM_SRCCHECK_PREFLIGHT_' . $type . '_TEXT') . '</p>';
+        die();
     }
 
     /**
