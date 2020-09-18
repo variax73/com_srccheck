@@ -39,6 +39,16 @@ DROP TABLE IF EXISTS `#__crc_files`;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `#__crc_tmp`;
 
+-- -----------------------------------------------------
+-- Table `#__crc_TrustedArchive`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__crc_TrustedArchive`;
+
+-- -----------------------------------------------------
+-- Table `#__crc_files_has_TrustedArchive`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `#__crc_files_has_TrustedArchive`;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

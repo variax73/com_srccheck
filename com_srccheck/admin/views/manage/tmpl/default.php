@@ -13,13 +13,36 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
 
-// JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder     = $this->escape($this->filter_order);
 $listDirn      = $this->escape($this->filter_order_Dir);
 ?>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+//        $("#srcCheckTabs > li").on("click", function() {
+            /**
+            * Set activeTab in code.
+            */
+        activeTab = window.localStorage.getItem( "srcCheckTabActive" );
 
-<form action="index.php?option=com_srccheck&view=manage" method="post" id="adminForm" name="adminForm">
+        $( "[href*='scat='], [action*='scat=']" ).each(function(){
+            $.each(this.attributes, function() {
+                if( this.value.includes( "scat=" ) ) {
+//console.log( $( "["+this.name+"*='scat='" ).attr(this.name).replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
+//console.log(this.name, this.value );
+//console.log( this.value, this.value.replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
+//console.log( $( "["+this.name+"='"+this.value+"']" ).attr(this.name) );
+                    $( "["+this.name+"='"+this.value+"']" ).attr(this.name, this.value.replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
+//console.log(this.name, this.value );
+                }
+            });
+        });
+//        })
+})
+</script>
+
+
+<form action="index.php?option=com_srccheck&view=manage&scat=" method="post" id="adminForm" name="adminForm">
     <div id="j-sidebar-container" class="span2">
         <?php echo $this->sidebar; ?>
     </div>

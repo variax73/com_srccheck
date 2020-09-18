@@ -15,6 +15,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'crc_lib.php');
+use Joomla\CMS\Factory;
 
 class SrcCheckControllerSrcChecks extends JControllerAdmin
 {
@@ -25,6 +26,9 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
 
     public function verify( $mode = NORMAL_MODE )
     {
+        $trustedarchive_id  = Factory::getApplication()->input->get( "scat" );
+echo "trustedarchive_id = $trustedarchive_id <br>";
+//die();
         mb_verify();
 
         // Display the view

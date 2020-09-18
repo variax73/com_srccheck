@@ -30,7 +30,10 @@ class SrcCheckViewSrcChecks extends JViewLegacy
                 // What Access Permissions does this user have? What can (s)he do?
 		$this->canDo = JHelperContent::getActions('com_srccheck');
                 
-		// Check for errors.
+
+                $this->activeTab = $this->items[0]->id;
+
+                // Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
                     throw new Exception(implode("\n", $errors), 500);
@@ -40,7 +43,9 @@ class SrcCheckViewSrcChecks extends JViewLegacy
 
                 // Set the submenu
                 SrcCheckHelper::addSubmenu('srcchecks');
-                
+
+//echo ">>>>>>>>>>>>>>>>>>>><br>" . var_dump($this->items);
+
                 // Set the toolbar
 		$this->addToolBar();
 

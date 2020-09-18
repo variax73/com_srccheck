@@ -9,7 +9,6 @@
  * @version   HEAD
  **************************************************************************
  */
-echo "qqweqweqweqweqw1";
 
 function addDirToZip( $dir, $zip ){
     $files = scandir($dir);
@@ -46,40 +45,47 @@ function copyDir($source, $dest){
     }
 }
 
+function addToUpdate( $filename )
+{
+    if (!copy($filename, "./srccheck-updates/".$filename)) {
+       echo "failed to copy $filename...\n";
+    }
+}
+
 echo "Start\n";
 
 //prepare plugin
+/**************
 $filename  = "plg_system_srccheckverify";
 
-unlink($filename);
+unlink($filename.".zip");
 echo "7z.exe a -tzip ".$filename.".zip ". $filename."\n";
 exec("7z.exe a -tzip ".$filename.".zip ". $filename);
+addToUpdate( $filename.".zip" );
+*************/
 
 //Prepare componnet
 $filename = "com_srccheck";
 
-unlink($filename);
-echo "7z.exe a -tzip ".$filename.".zip ".$build_dir.DIRECTORY_SEPARATOR.$filename."\n";
+unlink($filename.".zip");
+echo "7z.exe a -tzip ".$filename.".zip ".$filename."\n";
 exec("7z.exe a -tzip ".$filename.".zip admin");
 exec("7z.exe a -tzip ".$filename.".zip site");
 exec("7z.exe a -tzip ".$filename.".zip srccheck.xml");
 exec("7z.exe a -tzip ".$filename.".zip script.php");
 exec("7z.exe a -tzip ".$filename.".zip index.html");
+addToUpdate( $filename.".zip" );
 
 
 //Prepare package
-$filename = "pkg_srccheck.zip";
+/*********
+$filename = "pkg_srccheck";
 
-unlink($filename);
-echo "7z.exe a -tzip ".$filename.".zip ".$build_dir.DIRECTORY_SEPARATOR.$filename."\n";
+unlink($filename.".zip");
+echo "7z.exe a -tzip ".$filename.".zip ".$filename."\n";
 exec("7z.exe a -tzip ".$filename.".zip pkg_srccheck.xml");
 exec("7z.exe a -tzip ".$filename.".zip com_srccheck.zip");
 exec("7z.exe a -tzip ".$filename.".zip plg_system_srccheckverify.zip");
-
-$zip->close();
-
-
-if (!copy($filename, "./srccheck-updates/".$filename)) {
-    echo "failed to copy $filename...\n";
-}
+addToUpdate( $filename.".zip" );
+************/
 echo "Stop\n";

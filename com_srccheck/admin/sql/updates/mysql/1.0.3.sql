@@ -10,69 +10,6 @@
  */
 
 -- -----------------------------------------------------
--- Table `#__crc_files`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `#__crc_files` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `path` TEXT NOT NULL,
-  `filename` VARCHAR(512) NOT NULL,
-  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` TINYINT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` USING BTREE (`id`))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `#__crc_check_history`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `#__crc_check_history` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `users_id` INT NOT NULL DEFAULT 0,
-  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  INDEX `fk_crc_check_history_users_idx` (`users_id` ASC))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `#__crc_tmp`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `#__crc_tmp` (
-  `path` TEXT NOT NULL,
-  `filename` VARCHAR(512) NOT NULL,
-  `crc` VARCHAR(32) NOT NULL)
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `#__crc_check`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `#__crc_check` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `crc` VARCHAR(32) NOT NULL,
-  `veryfied` TINYINT NOT NULL DEFAULT 0,
-  `checked_out` INT NOT NULL DEFAULT 0,
-  `checked_out_time` DATETIME NOT NULL,
-  `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `crc_files_id` BIGINT UNSIGNED NOT NULL,
-  `crc_check_history_id` BIGINT UNSIGNED NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  INDEX `fk_crc_check_crc_files_idx` USING BTREE (`crc_files_id`),
-  INDEX `fk_crc_check_crc_check_history_idx` USING BTREE (`crc_check_history_id`),
-  CONSTRAINT `fk_crc_check_crc_files`
-    FOREIGN KEY (`crc_files_id`)
-    REFERENCES `#__crc_files` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_crc_check_crc_check_history`
-    FOREIGN KEY (`crc_check_history_id`)
-    REFERENCES `#__crc_check_history` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `#__crc_TrustedArchive`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `#__crc_TrustedArchive` (
@@ -87,7 +24,6 @@ CREATE TABLE IF NOT EXISTS `#__crc_TrustedArchive` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `#__crc_files_has_TrustedArchive`
@@ -109,7 +45,6 @@ CREATE TABLE IF NOT EXISTS `#__crc_files_has_TrustedArchive` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- View `#__crc_v_summary`

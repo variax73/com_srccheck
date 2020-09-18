@@ -7,7 +7,7 @@
 	<authorEmail>maciek.bednarski@gmail.com</authorEmail>
 	<copyright>Copyright (C) 2020 Green Line. All Rights Reserved.</copyright>
 	<license>GNU General Public License version 3, or later.</license>
-	<version>1.0.4</version>
+	<version>1.0.3</version>
 	<description>Source Files Check is a component that verifies if Joomla files have changed.</description>
 
 	<!-- Runs on install/uninstall/update; New in 2.5 -->

@@ -10,6 +10,12 @@
  **************************************************************************
  */
 
+/*
+ * Definition for debug
+ */
+
+//define( 'MB_DEBUG', __CLASS__."::".__FUNCTION__ . " " );
+
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 /*
@@ -18,16 +24,23 @@ defined('_JEXEC') or die('Restricted access');
      * 2 - changed file;
      * 3 - deleted file;
 */
+define( 'FILE_STATUS_NEW'       ,'0' );
+define( 'FILE_STATUS_VERIFIED'  ,'1' );
+define( 'FILE_STATUS_DELETED'   ,'2' );
 
-define( 'FILE_STATUS_NEW'       ,'0');
-define( 'FILE_STATUS_VERIFIED'  ,'1');
-define( 'FILE_STATUS_DELETED'   ,'2');
+define( 'FILE_CHECKED_STATUS_INVALID'   ,'0' );
+define( 'FILE_CHECKED_STATUS_VALID'     ,'1' );
 
-define( 'FILE_CHECKED_STATUS_INVALID'   ,'0');
-define( 'FILE_CHECKED_STATUS_VALID'     ,'1');
+define( 'SILENCE_MODE'          ,'1' );
+define( 'NORMAL_MODE'           ,'2' );
 
-define( 'SILENCE_MODE'          ,'1');
-define( 'NORMAL_MODE'           ,'2');
+//define( 'TA_LOCALISATION',  JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib' );
+define( 'TA_LOCALISATION',  'p:\tmp' );
+define( 'TA_FILENAME',      'ta.zip' );
+define( 'TA_PASSWORD',      ')9*CA^gbaH!oij#kj' );
+define( 'TA_MODE_INIT',     1 );
+
+include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'trusted_archive_lib.php');
 
 function listFilesTree( $dir, &$result = array() ){
     $files = scandir($dir);
@@ -83,8 +96,8 @@ echo "generate_crc_tmp: START<br>";
         $v_query = array( $db->quote($v[0]), $db->quote($v[1]), $db->quote($v[2]) );
 
         // Prepare the insert query.
-        $query
-            ->values(implode(',', $v_query));
+        $query->values(implode(',', $v_query));
+
         if($i++ > 400)
         {
             $db->setQuery($query);
@@ -157,6 +170,47 @@ echo "update_crc_from_tmp: 4<br>";
 echo "update_crc_from_tmp: END<br>";
 }
 
+function update_trusted_archive_from_tmp( $rootPatch, $ta_filename = TA_LOCALISATION.DIRECTORY_SEPARATOR.TA_FILENAME, $mode = TA_MODE_INIT )
+{
+echo __FUNCTION__. " " . "Start<br>";
+echo __FUNCTION__. " " . "ta_filename = " . $ta_filename . "<br>";
+
+    // Initialize New Trusted Archive
+    $tarchive = new TrustedArchive( $rootPatch, $ta_filename );
+//    $tarchive->openTrustedArchive();
+
+echo __FUNCTION__. " " . "filename = " . $tarchive->showTrustedArchiveLocalization() . "<br>";
+echo __FUNCTION__. " " . "status = " . $tarchive->status . " " . $tarchive->showStatusMessage() . "<br>";
+
+    if( $mode == TA_MODE_INIT )
+    {
+echo __FUNCTION__ . " " . " Init Mode<br>";
+
+        /*
+         *  Get data from #__crc_tmp
+         */
+        // Get a db connection.
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query = "SELECT * FROM #__crc_tmp;";
+echo __FUNCTION__. " " . "query = >>" . $query . "<<<br>";
+        $db->setQuery($query);
+        $db->execute();
+
+        $results = $db->loadObjectList();
+    
+        foreach ( $results as $i => $row )
+        {
+            $fileListToArchive[] = $row->path.DIRECTORY_SEPARATOR.$row->filename;
+//echo __FUNCTION__ . " " . "[$i] path =>>" . $row->path . "<< filename = >>" . $row->filename . "<< crc = >>" . $row->crc . "<< fileListToArchive=>". $fileListToArchive[$i] . "<<<br>";
+        }
+        $tarchive->addFilesToTrustedArchive( $fileListToArchive );
+    }
+
+    $tarchive->close();
+echo __FUNCTION__ . " " . " Stop<br>";
+}
+
 function update_veryfied_crc(){
     // Update CRC information
     // Get a db connection.
@@ -224,7 +278,8 @@ echo "End Function: erase_checked_files <br>";
 
 function validate_checked_files( $crc_files_id )
 {
-echo "Start Function: validate_checked_files <br>";
+echo __CLASS__."::".__FUNCTION__ . " " . "Start Function: validate_checked_files <br>";
+
     // Get a db connection.
     $db = JFactory::getDbo();
     $db->transactionStart();
@@ -243,7 +298,7 @@ echo "Start Function: validate_checked_files <br>";
                     -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',',$tmp_cci) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
                     -> set($db->quoteName('ccu.veryfied') . " = " . FILE_CHECKED_STATUS_VALID );
 
-echo "<br>111 " . $query . "<br>";
+echo __CLASS__."::".__FUNCTION__ . " " . "<br>111 " . $query . "<br>";
             $db->setQuery($query);
             $db->execute();
             $i=0;
@@ -254,21 +309,23 @@ echo "<br>111 " . $query . "<br>";
     $query  -> update($db->quoteName( '#__crc_check', 'ccu' ))
             -> join('INNER', '(SELECT cc_max.crc_files_id AS crc_files_id, MAX(cc_max.crc_check_history_id) AS crc_check_history_id FROM #__crc_check AS cc_max WHERE cc_max.crc_files_id IN (' . implode(',',$tmp_cci) . ') GROUP BY cc_max.crc_files_id) AS cc ON cc.crc_files_id = ccu.crc_files_id AND cc.crc_check_history_id = ccu.crc_check_history_id' )
             -> set($db->quoteName('ccu.veryfied') . " = " . FILE_CHECKED_STATUS_VALID );
-echo "<br>222 " . $query . "<br>";
+echo __CLASS__."::".__FUNCTION__ . " " . "<br>222 " . $query . "<br>";
     $db->setQuery($query);
 
     $db->execute();
     $db->transactionCommit();
-echo "End Function: validate_checked_files <br>";
+echo __CLASS__."::".__FUNCTION__ . " " . "End Function: validate_checked_files <br>";
 }
 
 function mb_verify()
 {
-        $db = JFactory::getDbo();
-        $db->transactionStart();
+echo __CLASS__."::".__FUNCTION__ . " " . ":Start<br>";
+    $db = JFactory::getDbo();
+    $db->transactionStart();
 
-        generate_crc_tmp( JPATH_ROOT );
-        update_crc_from_tmp(false);
-        update_veryfied_crc();
-        $db->transactionCommit();
+    generate_crc_tmp( JPATH_ROOT );
+    update_crc_from_tmp(false);
+    update_veryfied_crc();
+    $db->transactionCommit();
+echo __CLASS__."::".__FUNCTION__ . " " . ":Stop<br>";
 }

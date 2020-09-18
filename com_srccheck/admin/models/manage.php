@@ -14,6 +14,8 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Factory;
+
 /**
  * HelloWorldList Model
  *
@@ -50,8 +52,10 @@ class SrcCheckModelManage extends JModelList
     protected function getListQuery()
     {
     	// Initialize variables.
-    	$db    = JFactory::getDbo();
-    	$query = $db->getQuery(true);
+    	$db                 = JFactory::getDbo();
+    	$query              = $db->getQuery(true);
+        $trustedarchive_id  = Factory::getApplication()->input->get( "scat" );
+// echo "trustedarchive_id = $trustedarchive_id <br>";
 
         // Create the base select statement.
     	$query->select('cf.id AS file_id, cf.path AS path, cf.filename AS filename, cf.status AS status')
@@ -62,7 +66,8 @@ class SrcCheckModelManage extends JModelList
               ->join('LEFT', $db->quoteName('#__crc_check', 'cc') . ' ON cc.crc_files_id = cf.id AND (cc.crc_files_id, cc.crc_check_history_id) IN (select cct.crc_files_id, MAX(cct.crc_check_history_id) FROM #__crc_check AS cct group by cct.crc_files_id)' );
 
         $query->select( 'cch.id AS last_check_id')
-              ->join('LEFT', $db->quoteName('#__crc_check_history', 'cch') . ' ON cch.id = cc.crc_check_history_id');
+              ->join('LEFT', $db->quoteName('#__crc_check_history', 'cch') . ' ON cch.id = cc.crc_check_history_id')
+              ->join( '', $db->quoteName( '#__crc_files_has_trustedarchive', 'ctfa' ) . ' ON ctfa.crc_files_id = cf.id AND ctfa.crc_trustedarchive_id = ' . $trustedarchive_id );
 
 //        $query->group($db->quoteName(array('cf.path', 'cf.filename', 'cf.status')));
 

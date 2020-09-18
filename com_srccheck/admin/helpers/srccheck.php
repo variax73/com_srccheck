@@ -25,13 +25,13 @@ abstract class SrcCheckHelper extends JHelperContent
     {
 	JHtmlSidebar::addEntry(
             JText::_('COM_SRCCHECK_SUBMENU_SUMMARY'),
-            'index.php?option=com_srccheck',
+            'index.php?option=com_srccheck&scat=',
             $submenu == 'srcchecks'
         );
 
         JHtmlSidebar::addEntry(
             JText::_('COM_SRCCHECK_SUBMENU_MANAGE'),
-            'index.php?option=com_srccheck&view=manage',
+            'index.php?option=com_srccheck&view=manage&scat=',
             $submenu == 'manage'
         );
 

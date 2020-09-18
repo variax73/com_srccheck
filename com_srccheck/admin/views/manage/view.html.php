@@ -45,7 +45,6 @@ class SrcCheckViewManage extends JViewLegacy
             if (count($errors = $this->get('Errors')))
             {
                 JFactory::getApplication()->enqueueMessage(500, implode('<br />', $errors));
-//            	JError::raiseError(500, implode('<br />', $errors));
                 return false;
             }
 
