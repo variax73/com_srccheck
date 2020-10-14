@@ -40,7 +40,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `#__crc_tmp` (
   `path` TEXT NOT NULL,
   `filename` VARCHAR(512) NOT NULL,
-  `crc` VARCHAR(32) NOT NULL)
+  `crc` VARCHAR(32) NOT NULL,
+  `file` LONGBLOB NOT NULL)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -55,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `#__crc_check` (
   `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `crc_files_id` BIGINT UNSIGNED NOT NULL,
   `crc_check_history_id` BIGINT UNSIGNED NOT NULL,
+  `file` LONGBLOB NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `fk_crc_check_crc_files_idx` USING BTREE (`crc_files_id`),
@@ -77,17 +79,19 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `#__crc_TrustedArchive` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `path` TEXT NOT NULL,
+  `path` VARCHAR(512) NOT NULL,
   `name` VARCHAR(500) NOT NULL,
   `filename` VARCHAR(512) NOT NULL,
-  `root` TEXT NOT NULL,
+  `root` VARCHAR(512) NOT NULL,
   `users_id` INT(11) NOT NULL,
   `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `commentary` TEXT NULL,
+  `last_check_history_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `root_UNIQUE` (`root` ASC) VISIBLE,
+  INDEX `fk_crc_TrustedArchive_crc_check_history_idx` (`last_check_history_id` ASC) INVISIBLE)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `#__crc_files_has_TrustedArchive`

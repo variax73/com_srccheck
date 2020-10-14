@@ -14,7 +14,7 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'crc_lib.php');
+include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'TrustedArchive.php');
 use Joomla\CMS\Factory;
 
 class SrcCheckControllerSrcChecks extends JControllerAdmin
@@ -26,37 +26,39 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
 
     public function verify( $mode = NORMAL_MODE )
     {
-        $trustedarchive_id  = Factory::getApplication()->input->get( "scat" );
-echo "trustedarchive_id = $trustedarchive_id <br>";
-//die();
-        mb_verify();
+echo __CLASS__."::".__FUNCTION__." Start<BR>";
+        $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
+        $tarchive->verifyCrc();
+        $tarchive->updateArchive();
 
-        // Display the view
-        if( $mode != SILENCE_MODE )
-        {
+echo __CLASS__."::".__FUNCTION__." Stop<BR>";
+//        // Display the view
+//        if( $mode != SILENCE_MODE )
+//        {
             parent::display($tpl);
-        }
+//        }
     }
 
     public function valid()
     {
+echo __CLASS__."::".__FUNCTION__." Start<BR>";
         $ids  = $this->input->get('cid', array(), 'array');
-        
-        validate_checked_files( $ids );
 
+        $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
+
+        $tarchive->validFilesInTrustedArchiveById( $this->input->get('cid', array(), 'array') );
+
+echo __CLASS__."::".__FUNCTION__." Stop<BR>";
         parent::display($tpl);
     }
 
     public function erase()
     {
-echo "Controllers srcchecks.erase: START<br>";
+echo __CLASS__."::".__FUNCTION__." Start<BR>";
+        $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
+        $tarchive->eraseFilesInTrustedArchiveById( $this->input->get('cid', array(), 'array') );
 
-        $ids  = $this->input->get('cid', array(), 'array');
-echo "Controllers srcchecks.erase: Step 1<br>";
-       
-        erase_checked_files( $ids );
-echo "Controllers srcchecks.erase: STOP<br>";
-
+echo __CLASS__."::".__FUNCTION__." Stop<BR>";
         parent::display($tpl);
     }
 }   

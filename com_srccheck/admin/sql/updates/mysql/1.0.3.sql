@@ -14,15 +14,18 @@
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `#__crc_TrustedArchive` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `path` TEXT NOT NULL,
+  `path` VARCHAR(512) NOT NULL,
   `name` VARCHAR(500) NOT NULL,
   `filename` VARCHAR(512) NOT NULL,
-  `root` TEXT NOT NULL,
+  `root` VARCHAR(512) NOT NULL,
   `users_id` INT(11) NOT NULL,
   `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `commentary` TEXT NULL,
+  `last_check_history_id` BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE)
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+  UNIQUE INDEX `root_UNIQUE` (`root` ASC) VISIBLE,
+  INDEX `fk_crc_TrustedArchive_crc_check_history_idx` (`last_check_history_id` ASC) INVISIBLE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -60,3 +63,14 @@ ccf.timestamp AS last_check_time, ccf.users_id AS user_id, IFNULL( u.username, '
   LEFT JOIN #__crc_check_history ccf                ON ccf.id = cc.crc_check_history_id
   LEFT JOIN #__users u                              ON u.id = ccf.users_id
   GROUP BY cta.id;
+
+-- -----------------------------------------------------
+-- Aler for table `#__crc_tmp`
+-- -----------------------------------------------------
+ALTER TABLE `#__crc_tmp` ADD COLUMN `file` LONGBLOB NOT NULL;
+
+-- -----------------------------------------------------
+-- Aler for table `#__crc_check`
+-- -----------------------------------------------------
+ALTER TABLE `#__crc_check` ADD COLUMN `file` LONGBLOB NOT NULL;
+

@@ -54,7 +54,7 @@ class SrcCheckModelManage extends JModelList
     	// Initialize variables.
     	$db                 = JFactory::getDbo();
     	$query              = $db->getQuery(true);
-        $trustedarchive_id  = Factory::getApplication()->input->get( "scat" );
+        $trustedarchive_id  = JFactory::getApplication()->input->get( "scat" );
 // echo "trustedarchive_id = $trustedarchive_id <br>";
 
         // Create the base select statement.

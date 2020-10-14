@@ -1,4 +1,5 @@
 <?php
+echo "LOAD: " . __FILE__ . "<BR>";
 /**
  **************************************************************************
  Source Files Check - component that verifies the integrity of Joomla files
@@ -12,6 +13,12 @@
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
+
+//define( 'TA_LOCALISATION',  JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib' );
+define( 'TA_LOCALISATION',  'p:\tmp' );
+define( 'TA_FILENAME',      'joomla.zip' );
+define( 'TA_NAME',          'Joomla\'s root' );
+define( 'TA_PASSWORD',      ')9*CA^gbaH!oij#kj' );
 
 class com_SrcCheckInstallerScript
 {
@@ -136,15 +143,16 @@ echo __CLASS__."::".__FUNCTION__ . " Stop<br>";
     function postflight($type, $parent) 
     {
 echo __CLASS__."::".__FUNCTION__ . " Start<br>";
-        include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'crc_lib.php');
-
+        include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'TrustedArchive.php');
 echo __CLASS__."::".__FUNCTION__ . " type =>$type<, parent=>$parent<<br>";
 
-        if($type == "install"){
+        if( $type == "install" )
+        {
 echo __CLASS__."::".__FUNCTION__ . " Install mode<br>";
-            generate_crc_tmp( JPATH_ROOT );
-            update_crc_from_tmp(TRUE);
-            update_trusted_archive_from_tmp( JPATH_ROOT );
+
+            $tarchive = new TrustedArchive( Array(  "root"      => JPATH_ROOT,
+                                                    "filename"  => TA_LOCALISATION.DIRECTORY_SEPARATOR.TA_FILENAME,
+                                                    "name"      => TA_NAME ) );
         }
         if($type == "update")
         {
@@ -153,10 +161,17 @@ echo __CLASS__."::".__FUNCTION__ . " " . "fromVersion =>$this->fromVersion<  toV
             if (!empty($this->fromVersion) && version_compare($this->fromVersion, '1.0.3', 'lt'))
             {
 echo __CLASS__."::".__FUNCTION__ . " " . " Create first Trusted Archive<BR>";
-                update_trusted_archive_from_tmp( JPATH_ROOT );
+            $tarchive = new TrustedArchive( Array(  "root"      => JPATH_ROOT,
+                                                    "filename"  => TA_LOCALISATION.DIRECTORY_SEPARATOR.TA_FILENAME,
+                                                    "name"      => TA_NAME ) );
+            /**
+             * Delete old files
+             */
+                unlink( JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'crc.php');
             }
         }
 
+        
         echo '<p>' . JText::_('COM_SRCCHECK_POSTFLIGHT_' . $type . '_TEXT') . '</p>';
 echo __CLASS__."::".__FUNCTION__ . " Stop<br>";
     }
