@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ **************************************************************************
+ Source Files Check - component that verifies the integrity of Joomla files
+ **************************************************************************
+ * @author    Maciej Bednarski (Green Line) <maciek.bednarski@gmail.com>
+ * @copyright Copyright (C) 2020 Green Line. All Rights Reserved.
+ * @license   GNU General Public License version 3, or later
+ * @version   HEAD
+ **************************************************************************
+ */
+-->
+
+<form>
+    <fields name="filter">
+        <field
+            name="search"
+            type="text"
+            label="COM_SRCCHECK_SEARCH_PATH_FILE"
+            hint="JSEARCH_FILTER"
+            class="js-stools-search-string"
+	/>
+<!--        <field name     = "file_status"
+            type        = "list"
+            default     = ""
+            label       = "COM_SRCCHECK_FILTER_FILE_STATUS"
+            onchange    = "this.form.submit();"
+        >
+        <option value="">COM_SRCCHECK_FILTER_SELECT_STATUS_FILE</option>
+        <option value="0">COM_SRCCHECK_NEW_STATUS_FILE</option>
+        <option value="1">COM_SRCCHECK_VERYFIED_STATUS_FILE</option>
+        <option value="2">COM_SRCCHECK_DELETED_STATUS_FILE</option>
+        </field>-->
+<!--        <field name     = "file_veryfied"
+            type        = "list"
+            default     = ""
+            label       = "COM_SRCCHECK_FILTER_FILE_VERYFIED"
+            onchange    = "this.form.submit();"
+        >
+        <option value="">COM_SRCCHECK_FILTER_SELECT_VERYFIED</option>
+        <option value="0">COM_SRCCHECK_INVALID_STATUS_FILE</option>
+        <option value="1">COM_SRCCHECK_VALID_STATUS_FILE</option>
+        </field>-->
+    </fields>
+
+    <fields name="list">
+        <field
+            name="limit"
+            type="limitbox"
+            class="input-mini"
+            default="25"
+            label="COM_SRCCHECK_LIST_LIMIT"
+            description="COM_SRCCHECK_LIST_LIMIT_DESC"
+            onchange="this.form.submit();"
+        />
+    </fields>
+</form>

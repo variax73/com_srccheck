@@ -41,7 +41,6 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 })
 </script>
 
-
 <form action="index.php?option=com_srccheck&view=manage&scat=" method="post" id="adminForm" name="adminForm">
     <div id="j-sidebar-container" class="span2">
         <?php echo $this->sidebar; ?>
@@ -58,89 +57,101 @@ $listDirn      = $this->escape($this->filter_order_Dir);
                 ?>
             </div>
         </div>
-	<table class="table table-striped table-hover">
-                <thead>
-		<tr>
-<!-- 			<th width="1%"><?php //echo JText::_('COM_SRECCHECK_NUM'); ?></th>
--->			<th width="2%">
-				<?php echo JHtml::_('grid.checkall'); ?>
-			</th>
-			<th width="50%">
-				<?php echo JHtml::_('grid.sort','COM_SRCCHECK_PATH', 'path', $listDirn, $listOrder) ;?>
-			</th>
-			<th width="30%">
-				<?php echo JHtml::_('grid.sort','COM_SRCCHECK_FILENAME', 'filename', $listDirn, $listOrder); ?>
-			</th>
-			<th width="20%">
-				<?php echo JHtml::_('grid.sort','COM_SRCCHECK_STATUS', 'status', $listDirn, $listOrder); ?>
-			</th>
-			<th width="20%">
-				<?php echo JHtml::_('grid.sort','COM_SRCCHECK_VERYFIED', 'veryfied', $listDirn, $listOrder); ?>
-			</th>
-		</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="5">
-					<?php echo $this->pagination->getListFooter(); ?>
-				</td>
-			</tr>
-		</tfoot>
-		<tbody>
-			<?php if (!empty($this->items)) : ?>
-				<?php foreach ($this->items as $i => $row) : ?>
 
-					<tr>
-<!--						<td>
-							<?php //echo $this->pagination->getRowOffset($i); ?>
-						</td>
--->						<td>
-							<?php
-                                                            echo JHtml::_('grid.id', $i, $row->file_id);
-                                                        ?>
-						</td>
-						<td>
-							<?php echo $row->path; ?>
-						</td>
-						<td>
-							<?php echo $row->filename; ?>
-						</td>
-						<td align="center">
-							<?php
-                                                            switch ($row->status) {
-                                                                case 0:
-                                                                    echo JText::_('COM_SRCCHECK_NEW_STATUS_FILE');
-                                                                    break;
-                                                                case 1:
-                                                                    echo JText::_('COM_SRCCHECK_VERYFIED_STATUS_FILE');
-                                                                    break;
-                                                                case 2:
-                                                                    echo JText::_('COM_SRCCHECK_DELETED_STATUS_FILE');
-                                                                    break;
-                                                                default:
-                                                                    echo JText::_('COM_SRCCHECK_UNEXPECTED_STATUS_FILE');
-                                                            }
-                                                        ?>
-						</td>
-						<td align="center">
-							<?php
-//                                                            echo JText::_($row->last_check_id);
-                                                            switch ($row->veryfied) {
-                                                                case 0:
-                                                                    echo JText::_('COM_SRCCHECK_INVALID_STATUS_FILE');
-                                                                    break;
-                                                                case 1:
-                                                                    echo JText::_('COM_SRCCHECK_VALID_STATUS_FILE');
-                                                                    break;
-                                                                default:
-                                                                    echo JText::_('COM_SRCCHECK_UNEXPECTED_STATUS_FILE');
-                                                            }
-                                                        ?>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-			<?php endif; ?>
-		</tbody>
+	<table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                    	<?php echo JHtml::_('grid.checkall'); ?>
+                    </th>
+                    <th>
+                        <?php echo JHtml::_('grid.sort','COM_SRCCHECK_PATH', 'path', $listDirn, $listOrder) ;?>
+                    </th>
+                    <th>
+                        <?php echo JHtml::_('grid.sort','COM_SRCCHECK_FILENAME', 'filename', $listDirn, $listOrder); ?>
+                    </th>
+                    <th>
+                        <?php echo JHtml::_('grid.sort','COM_SRCCHECK_STATUS', 'status', $listDirn, $listOrder); ?>
+                    </th>
+                    <th>
+                        <?php echo JHtml::_('grid.sort','COM_SRCCHECK_VERYFIED', 'veryfied', $listDirn, $listOrder); ?>
+                    </th>
+                    <th>
+                    </th>
+		</tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <?php echo $this->pagination->getListFooter(); ?>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <?php if (!empty($this->items)) : ?>
+                    <?php foreach ($this->items as $i => $row) : ?>
+                    <tr>
+                        <td>
+                            <?php echo JHtml::_('grid.id', $i, $row->file_id); ?>
+                        </td>
+                        <td>
+                            <?php echo $row->path; ?>
+                        </td>
+                        <td>
+                            <?php echo $row->filename; ?>
+                        </td>
+                        <td>
+                            <?php
+                                switch ($row->status)
+                                {
+                                    case FILE_STATUS_NEW:
+                                        echo JText::_('COM_SRCCHECK_NEW_STATUS_FILE');
+                                        break;
+                                    case FILE_STATUS_VERIFIED:
+                                        echo JText::_('COM_SRCCHECK_VERYFIED_STATUS_FILE');
+                                        break;
+                                    case FILE_STATUS_DELETED:
+                                        echo JText::_('COM_SRCCHECK_DELETED_STATUS_FILE');
+                                        break;
+                                    case FILE_STATUS_IN_TRASHCAN:
+                                        echo JText::_('COM_SRCCHECK_IN_TRASHCAN_STATUS_FILE');
+                                        break;
+                                    default:
+                                        JText::_('COM_SRCCHECK_UNEXPECTED_STATUS_FILE');
+                                }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                                switch ($row->veryfied)
+                                {
+                                    case FILE_CHECKED_STATUS_INVALID:
+                                        echo JText::_('COM_SRCCHECK_INVALID_STATUS_FILE');
+                                        break;
+                                    case FILE_CHECKED_STATUS_VALID:
+                                        echo JText::_('COM_SRCCHECK_VALID_STATUS_FILE');
+                                        break;
+                                    default:
+                                        echo JText::_('COM_SRCCHECK_UNEXPECTED_STATUS_FILE');
+                                }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                                $selector = "fileHistory".$row->file_id;
+                                echo $this->addHistory( array(  "filename"          => $row->filename,
+                                                                "selector"          => $selector,
+                                                                "file_id"           => $row->file_id,
+                                                                "trustedarchive_id" => $row->trustedarchive_id) );
+                            ?>
+                            <button data-toggle="modal" data-target="#<?php echo $selector; ?>" id="<?php echo $row->file_id; ?>">
+                                <?php echo JText::_('COM_SRCCHECK_BTN_DETAILS'); ?>
+                            </button>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
 	</table>
        	<input type="hidden" name="task" value=""/>
         <input type="hidden" name="boxchecked" value="0"/>

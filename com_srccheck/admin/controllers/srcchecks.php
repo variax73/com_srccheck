@@ -14,7 +14,7 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'TrustedArchive.php');
+//include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'TrustedArchive.php');
 use Joomla\CMS\Factory;
 
 class SrcCheckControllerSrcChecks extends JControllerAdmin
@@ -26,12 +26,13 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
 
     public function verify( $mode = NORMAL_MODE )
     {
-echo __CLASS__."::".__FUNCTION__." Start<BR>";
+srcCheckLog::start();;
         $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
         $tarchive->verifyCrc();
+
         $tarchive->updateArchive();
 
-echo __CLASS__."::".__FUNCTION__." Stop<BR>";
+srcCheckLog::stop();
 //        // Display the view
 //        if( $mode != SILENCE_MODE )
 //        {
@@ -41,25 +42,41 @@ echo __CLASS__."::".__FUNCTION__." Stop<BR>";
 
     public function valid()
     {
-echo __CLASS__."::".__FUNCTION__." Start<BR>";
-        $ids  = $this->input->get('cid', array(), 'array');
-
+srcCheckLog::start();;
         $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
 
+//        $ids  = $this->input->get('cid', array(), 'array');
         $tarchive->validFilesInTrustedArchiveById( $this->input->get('cid', array(), 'array') );
-
-echo __CLASS__."::".__FUNCTION__." Stop<BR>";
+srcCheckLog::stop();
         parent::display($tpl);
     }
 
     public function erase()
     {
-echo __CLASS__."::".__FUNCTION__." Start<BR>";
+srcCheckLog::start();;
         $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
         $tarchive->eraseFilesInTrustedArchiveById( $this->input->get('cid', array(), 'array') );
 
-echo __CLASS__."::".__FUNCTION__." Stop<BR>";
+srcCheckLog::stop();
         parent::display($tpl);
     }
+
+    public function EraseCheckedFromTrashcan()
+    {
+srcCheckLog::start();;
+        $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
+        $tarchive->eraseFilesFromTrashcanById( $this->input->get('cid', array(), 'array') );
+srcCheckLog::stop();
+        parent::display($tpl);
+    }   
+
+    public function EraseAllFromTrashcan()
+    {
+srcCheckLog::start();;
+        $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
+        $tarchive->eraseFilesFromTrashcanById();
+srcCheckLog::stop();
+        parent::display($tpl);
+    }   
 }   
                 

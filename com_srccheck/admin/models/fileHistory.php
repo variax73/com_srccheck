@@ -51,35 +51,19 @@ class SrcCheckModelManage extends JModelList
      */
     protected function getListQuery()
     {
-srcCheckLog::start();
-        // Initialize variables.
+    	// Initialize variables.
     	$db                 = JFactory::getDbo();
     	$query              = $db->getQuery(true);
         $trustedarchive_id  = JFactory::getApplication()->input->get( "scat" );
 // echo "trustedarchive_id = $trustedarchive_id <br>";
 
         // Create the base select statement.
-    	$query-> select( "cf.id AS file_id, cf.path AS path, cf.filename AS filename, cf.status AS status" )
-            -> from( $db->quoteName( "#__crc_files", "cf" ) )
-            -> where( $db->quoteName( "cf.status" ) . "<>" . FILE_STATUS_IN_TRASHCAN );
-
-        $query-> select( $db->quoteName( "cc.veryfied",             "veryfied" ) )
-            -> select( $db->quoteName( "cc.id",                     "check_id" ) )
-            -> select( $db->quoteName( "cc.crc_check_history_id",   "crc_check_history_id" ) )
-            -> select( $db->quoteName( "cc.ta_localisation",        "ta_localisation" ) )
-            -> select( $db->quoteName( "cc.crc_trustedarchive_id",  "trustedarchive_id" ) )
-            -> join( "inner", $db->quoteName( "#__crc_check", "cc" )    . " ON " . $db->quoteName( "cc.crc_files_id" ) . " = " . $db->quoteName( "cf.id" )
-//                                                                        . " AND " . $db->quoteName( "cc.crc_trustedarchive_id" ) . " = " . $db->quoteName( "cf.id" )
-                                                                        . " AND (" . $db->quoteName( "cc.crc_files_id" ) . "," . $db->quoteName( "cc.crc_check_history_id" )
-                                                                                                      . ") IN (" . $db->getQuery( true )
-                                                                                                                        ->select( $db->quoteName( "crc_files_id" ) )
-                                                                                                                        ->select( "MAX(" . $db->quoteName( "crc_check_history_id" ) . ")" )
-                                                                                                                        ->from( $db->quoteName( "#__crc_check" ) )
-                                                                                                                        ->group( $db->quoteName( "crc_files_id" ) ) . ")"
-                   );
-//                    . " AND (" . $db->quoteName( "cc.crc_files_id" ) . "," . $db->quoteName( "cc.crc_check_history_id" ) . ") IN (" . $query = $db->getQuery(true)
-//                                                                                                                                                                                                    -> select() . ")"
-//                                                                    select cct.crc_files_id, MAX(cct.crc_check_history_id) FROM #__crc_check AS cct group by cct.crc_files_id)" );
+    	$query->select('cf.id AS file_id, cf.path AS path, cf.filename AS filename, cf.status AS status')
+              ->from($db->quoteName('#__crc_files', 'cf'));
+        
+        $query->select($db->quoteName('cc.veryfied', 'veryfied'))
+              ->select($db->quoteName('cc.id', 'check_id'))
+              ->join('LEFT', $db->quoteName('#__crc_check', 'cc') . ' ON cc.crc_files_id = cf.id AND (cc.crc_files_id, cc.crc_check_history_id) IN (select cct.crc_files_id, MAX(cct.crc_check_history_id) FROM #__crc_check AS cct group by cct.crc_files_id)' );
 
         $query->select( 'cch.id AS last_check_id')
               ->join('LEFT', $db->quoteName('#__crc_check_history', 'cch') . ' ON cch.id = cc.crc_check_history_id')
@@ -115,9 +99,8 @@ srcCheckLog::start();
 	$orderDirn 	= $this->state->get('list.direction', 'asc');
 
         $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
-srcCheckLog::debug( "query = >>" . $query . "<<" );
 
-srcCheckLog::stop();
+//echo $query;
         return $query;
     }
 }

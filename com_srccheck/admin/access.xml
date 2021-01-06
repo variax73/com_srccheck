@@ -15,14 +15,11 @@
 <access component="com_srccheck">
     <section name="component">
         <action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+<!--        <action name="srccheck.manage" title="COM_SRCCHECK_PERMISSION_MANAGE" description="COM_SRCCHECK_PERMISSION_DESC_MANAGE" />
+        <action name="srccheck.trashcan" title="COM_SRCCHECK_PERMISSION_TRASHCAN" description="COM_SRCCHECK_PERMISSION_DESC_TRASHCAN" />-->
         <action name="srccheck.verify" title="COM_SRCCHECK_PERMISSION_VERIFY" description="COM_SRCCHECK_PERMISSION_DESC_VERIFY" />
         <action name="srccheck.valid" title="COM_SRCCHECK_PERMISSION_VALID" description="COM_SRCCHECK_PERMISSION_DESC_VALID" />
         <action name="srccheck.erase" title="COM_SRCCHECK_PERMISSION_ERASE" description="COM_SRCCHECK_PERMISSION_DESC_ERASE" />
-
-        <!-- action name="srcchecks.verify" title="JACTION_MANAGE" description="JACTION_SRCCHECKS_VERIFY_COMPONENT_DESC" />
-	</section>
-	<section name="summary">
-		<action name="srcchecks.verify" title="JACTION_MANAGE" description="JACTION_SRCCHECKS_VERIFY_COMPONENT_DESC" />
--->
+        <action name="srccheck.EraseFromTraschcan" title="COM_SRCCHECK_PERMISSION_ERASE_FROM_TRASHCAN" description="COM_SRCCHECK_PERMISSION_DESC_ERASE_FROM_TRASHCAN" />
     </section>
  </access>

@@ -24,10 +24,9 @@ class SrcCheckViewManage extends JViewLegacy
 	 */
 	function display($tpl = null)
 	{
-            
+srcCheckLog::start();
             $app = JFactory::getApplication();
             $context = "srccheck.list.admin.manage";
-
             // Get data from the model
             $this->items		= $this->get('Items');
             $this->pagination           = $this->get('Pagination');
@@ -47,20 +46,21 @@ class SrcCheckViewManage extends JViewLegacy
                 JFactory::getApplication()->enqueueMessage(500, implode('<br />', $errors));
                 return false;
             }
-
-            // Set the submenu
-            SrcCheckHelper::addSubmenu('manage');
-
-            // Set the toolbar
-            $this->addToolBar();
-            
+srcCheckLog::debug( $this->getLayout() );
+            if ($this->getLayout() !== 'fileHistory')
+            {
+srcCheckLog::debug( "I'm in modal: fileHistory" );
+SrcCheckHelper::addSubmenu('manage');
+                // Set the toolbar
+                $this->addToolBar();
+                $this->sidebar = JHtmlSidebar::render();
+            }
             // Set the document
             $this->setDocument();
 
-            $this->sidebar = JHtmlSidebar::render();                        
-
             // Display the view
             parent::display($tpl);
+srcCheckLog::stop();
 	}
         /**
 	 * Add the page title and toolbar.
@@ -69,6 +69,7 @@ class SrcCheckViewManage extends JViewLegacy
 	 */
 	protected function addToolBar()
 	{
+srcCheckLog::start();
 //            $input = JFactory::getApplication()->input;
 
             JToolbarHelper::title(JText::_('COM_SRCCHECK_ADMINISTRATION_MANAGE'));
@@ -91,7 +92,8 @@ class SrcCheckViewManage extends JViewLegacy
             {
                 JToolBarHelper::preferences('com_srccheck');
             }
-	}
+srcCheckLog::stop();
+        }
         /**
 	 * Method to set up the document properties
 	 *
@@ -100,6 +102,31 @@ class SrcCheckViewManage extends JViewLegacy
 	protected function setDocument() 
 	{
 		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_SRCCHECK_ADMINISTRATION_MANAGE'));
+		$document->setTitle(JText::_( 'COM_SRCCHECK_ADMINISTRATION_MANAGE' ) );
 	}
+
+        protected function addHistory( $p )
+        {
+srcCheckLog::start();
+            $title = JText::_( "COM_SRCCHECK_MANAGE_FILE_HISTORY" ) . " " . $p[ "filename" ];
+srcCheckLog::debug( "title = >" . $title . "<"
+                    . "\nselector = >" . $p[ "selector" ] . "<"
+                    . "\nfile_id = >" . $p[ "file_id" ] . "<"
+                    . "\ntrustedarchive_id = >" . $p[ "trustedarchive_id" ] . "<"
+                  );
+/*            $body = "TT EE SS TT";*/
+            $data = array(
+                "selector" => $p[ "selector" ],
+                "params"   => array( "title"    => $title,
+                                     "url"      => "index.php?option=com_srccheck&view=filehistory&tmpl=component&scat=" . $p[ "trustedarchive_id" ] . "&file_id=".$p[ "file_id" ],
+//                                     "width"    => "400px",
+                                     "height"   => "800px",
+                                     "footer"   => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+                                   ) /*,
+                "body"     => $body*/
+            );
+            $layout = new JLayoutFile( "joomla.modal.main" );
+srcCheckLog::stop();
+            return $layout->render( $data );
+        }
 }

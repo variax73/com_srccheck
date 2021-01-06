@@ -23,7 +23,8 @@ abstract class SrcCheckHelper extends JHelperContent
 
     public static function addSubmenu($submenu) 
     {
-	JHtmlSidebar::addEntry(
+srcCheckLog::start();
+        JHtmlSidebar::addEntry(
             JText::_('COM_SRCCHECK_SUBMENU_SUMMARY'),
             'index.php?option=com_srccheck&scat=',
             $submenu == 'srcchecks'
@@ -35,6 +36,12 @@ abstract class SrcCheckHelper extends JHelperContent
             $submenu == 'manage'
         );
 
+        JHtmlSidebar::addEntry(
+            JText::_('COM_SRCCHECK_SUBMENU_TRASHCAN'),
+            'index.php?option=com_srccheck&view=trashcan&scat=',
+            $submenu == 'trashcan'
+        );
+
         // Set some global property
         $document = JFactory::getDocument();
 //        $document->addStyleDeclaration('.icon-48-helloworld ' .
@@ -44,5 +51,10 @@ abstract class SrcCheckHelper extends JHelperContent
         {
             $document->setTitle(JText::_('COM_SRCCHECK_ADMINISTRATION_MANAGE'));
         }
+        if ($submenu == 'trashcan') 
+        {
+            $document->setTitle(JText::_('COM_SRCCHECK_ADMINISTRATION_TRASHCAN'));
+        }
+srcCheckLog::stop();
     }
 }
