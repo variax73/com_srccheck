@@ -16,8 +16,6 @@ defined('_JEXEC') or die('Restricted access');
 include_once (__DIR__.DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'srcchecklog.php');
 include_once (__DIR__.DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'trustedarchive.php');
 
-
-
 //define( 'TA_LOCALISATION',  JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'archives' );
 define( 'TA_LOCALISATION',  JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'archives' );
 //define( 'TA_LOCALISATION',  'p:\tmp\xxx' );

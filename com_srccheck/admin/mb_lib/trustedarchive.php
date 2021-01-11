@@ -11,6 +11,8 @@ srcCheckLog::debug( "LOAD: " . __FILE__ );
  **************************************************************************
  */
 
+
+
 defined('_JEXEC') or die('Restricted access');
 
 define( "TA_MODE_INIT",         0 );

@@ -11,6 +11,8 @@ srcCheckLog::debug( __FILE__ );
  **************************************************************************
  */
 
+
+
 defined('_JEXEC') or die('Restricted access');
 define( 'FILE_STATUS_NEW'               ,'0' );
 define( 'FILE_STATUS_VERIFIED'          ,'1' );
