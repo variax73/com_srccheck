@@ -89,7 +89,7 @@ srcCheckLog::start();
 
 srcCheckLog::debug( "UPDATE mode fromVersion =>$this->fromVersion< toVersion =>$this->toVersion<" );
 //$sc_log->debug( "UPDATE mode fromVersion =>$this->fromVersion< toVersion =>$this->toVersion<" );
-        if (!empty($this->fromVersion) && version_compare($this->fromVersion, '1.0.3', 'lt'))
+        if (!empty($this->fromVersion) && version_compare($this->fromVersion, '2.0.0', 'lt'))
         {
 srcCheckLog::debug( "Create first Trusted Archive" );
 //$sc_log->debug( "Create first Trusted Archive" );

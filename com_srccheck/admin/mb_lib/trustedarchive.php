@@ -224,14 +224,26 @@ srcCheckLog::start();
 srcCheckLog::debug( "Last check is = >>" . $this->taDB->lastCheckId() . "<<" );
         $qFilesAdded = 0;
         $files = $this->taDB->selectCrcFilesToAddToTa( $mode );
+
+//srcCheckLog::debug(var_dump( $files ) );
         foreach ( $files as $file )
         {
-            $f = $file->path.DIRECTORY_SEPARATOR.$file->filename;
-            $this->addFile(  $f, $file->ta_localisation );
-            if( !$this->status )
+//            $this->close();
+//            $this->open_result = $this->open( $this->path . DIRECTORY_SEPARATOR . $this->filename );
+            if( $file <> null )
             {
-                $tmp_files[] = addslashes( $f );
-                $qFilesAdded ++;
+                $f = $file->path.DIRECTORY_SEPARATOR.$file->filename;
+                $result = $this->addFile(  $f, $file->ta_localisation );
+srcCheckLog::debug( "filename           =>" . $f . "\n" .
+                    "ta_localizsation   =>" . $file->ta_localisation . "\n" .
+                    "result             =>" . $result . "\n" .
+                    "status             =>" . $this->status
+                  );
+                if( !$this->status )
+                {
+                    $tmp_files[] = addslashes( $f );
+                    $qFilesAdded ++;
+                }
             }
         }
 srcCheckLog::debug( "Added $qFilesAdded files to archive [$this->name($this->base_id)]" );
@@ -253,7 +265,10 @@ srcCheckLog::start();
         foreach ( $filesToDelete as $file )
         {
 srcCheckLog::debug( "id = >>" . $file->id . "<<path = >>" . $file->path . "<<filename = >>" . $file->filename . "<<ta_localisation = >>" . $file->ta_localisation ); 
-            if( !$this->renameName( $file->ta_localisation, $this->trashName . DIRECTORY_SEPARATOR . $file->ta_localisation ) )
+            $result = $this->renameName( $file->ta_localisation, $this->trashName . DIRECTORY_SEPARATOR . $file->ta_localisation );
+srcCheckLog::debug( "result = >>" . $result );
+//            if( !$this->renameName( $file->ta_localisation, $this->trashName . DIRECTORY_SEPARATOR . $file->ta_localisation ) )
+            if( !$result )
             {
                 $err_msg = JText::sprintf( "COM_SRCCHECK_ERR_ARC_PUT_TO_TRASHCAN", $file->filename . "[" . $file->ta_localisation . "](" . $this->showStatusMessage() . ")" );
                 srcCheckLog::error( $err_msg );
@@ -276,7 +291,10 @@ srcCheckLog::debug( "Delete All files in Trashcan" );
         foreach ( $filesToDelete as $file )
         {
 srcCheckLog::debug( "id = >>" . $file->id . "<<path = >>" . $file->path . "<<filename = >>" . $file->filename . "<<ta_localisation = >>" . $file->ta_localisation ); 
-            if( !$this->deleteName( $this->trashName . DIRECTORY_SEPARATOR . $file->ta_localisation ) )
+            $result = $this->deleteName( $this->trashName . DIRECTORY_SEPARATOR . $file->ta_localisation );
+srcCheckLog::debug( "result = >>" . $result );
+//            if( !$this->deleteName( $this->trashName . DIRECTORY_SEPARATOR . $file->ta_localisation ) )
+            if( !$result )
             {
                 $err_msg = JText::sprintf( "COM_SRCCHECK_ERR_ARC_EMPTY_TRASHCAN", $file->filename . "[" . $file->ta_localisation . "](" . $this->showStatusMessage() . ")" );
                 srcCheckLog::error( $err_msg );
