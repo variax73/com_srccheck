@@ -223,7 +223,7 @@ srcCheckLog::currentDuration();
                                                                             . " AND " . $this->db->quoteName( "p_cc.crc_check_history_id" ) . " = " . $this->db->quoteName( "max_cc.prv_crc_check_history" )
                   )
             ->where( array( $this->db->quoteName( "cf.status" ) . " < " . FILE_STATUS_DELETED,
-                            $this->db->quoteName( "c_cc.crc" ) . " <> " . $this->db->quoteName( "p_cc.crc" ),
+                            $this->db->quoteName( "c_cc.crc" ) . " <> " . "IF( " . $this->db->quoteName( "cf.status" ) . " = " . FILE_STATUS_NEW . ",-1, " . $this->db->quoteName( "p_cc.crc" ) . " )",
                           )
                    );
 srcCheckLog::debug( "query = >>" . $query . "<<" );
