@@ -9,16 +9,8 @@
  * @version   2.0.0
  **************************************************************************
  */
-
-// No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
-
-// Include the component HTML helpers.
-// JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 $document = JFactory::getDocument();
-//JHtml::_('behavior.framework', true);
-//JHtml::_('bootstrap.tooltip');
 ?>
 
 <script type="text/javascript">
@@ -32,12 +24,7 @@ $document = JFactory::getDocument();
             $( "[href*='scat='], [action*='scat=']" ).each(function(){
                 $.each(this.attributes, function() {
                     if( this.value.includes( "scat=" ) ) {
-//console.log( $( "["+this.name+"*='scat='" ).attr(this.name).replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
-//console.log(this.name, this.value );
-//console.log( this.value, this.value.replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
-//console.log( $( "["+this.name+"='"+this.value+"']" ).attr(this.name) );
                         $( "["+this.name+"='"+this.value+"']" ).attr(this.name, this.value.replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
-//console.log(this.name, this.value );
                     }
                 });
             });
@@ -66,7 +53,6 @@ $document = JFactory::getDocument();
         <?php if (!empty($this->items)) : ?>
             <?php 
                 foreach ( $this->items as $row ) $tab[]=$row;
-//                echo JHtml::_('bootstrap.startTabSet', 'srcCheck', array('active' => $this->activeTab) );
                 echo JHtml::_('bootstrap.startTabSet', 'srcCheck' );
             ?>
                 <?php foreach ($tab as $i => $row) : ?>
@@ -153,6 +139,5 @@ $document = JFactory::getDocument();
 	<?php endif; ?>
        	<input type="hidden" name="task" value=""/>
 	<?php echo JHtml::_('form.token'); ?>
-	<!--- ?php echo $this->loadTemplate('system'); ?  -->
     </div>
 </form>

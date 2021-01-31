@@ -11,10 +11,8 @@
  **************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-//include_once (JPATH_ADMINISTRATOR.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_srccheck'.DIRECTORY_SEPARATOR.'mb_lib'.DIRECTORY_SEPARATOR.'TrustedArchive.php');
 use Joomla\CMS\Factory;
 
 class SrcCheckControllerSrcChecks extends JControllerAdmin
@@ -32,12 +30,7 @@ srcCheckLog::start();;
 
         $tarchive->updateArchive();
 
-srcCheckLog::stop();
-//        // Display the view
-//        if( $mode != SILENCE_MODE )
-//        {
-            parent::display($tpl);
-//        }
+        parent::display($tpl);
     }
 
     public function valid()
@@ -45,7 +38,6 @@ srcCheckLog::stop();
 srcCheckLog::start();;
         $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
 
-//        $ids  = $this->input->get('cid', array(), 'array');
         $tarchive->validFilesInTrustedArchiveById( $this->input->get('cid', array(), 'array') );
 srcCheckLog::stop();
         parent::display($tpl);
@@ -78,5 +70,4 @@ srcCheckLog::start();;
 srcCheckLog::stop();
         parent::display($tpl);
     }   
-}   
-                
+}

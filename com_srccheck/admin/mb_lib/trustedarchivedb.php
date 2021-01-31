@@ -11,15 +11,7 @@ srcCheckLog::debug( __FILE__ );
  **************************************************************************
  */
 
-// No direct access to this file
-
 defined('_JEXEC') or die('Restricted access');
-/*
-     * 0 - new file;
-     * 1 - checked file;
-     * 2 - changed file;
-     * 3 - deleted file;
-*/
 define( 'FILE_STATUS_NEW'               ,'0' );
 define( 'FILE_STATUS_VERIFIED'          ,'1' );
 define( 'FILE_STATUS_DELETED'           ,'2' );
@@ -32,10 +24,6 @@ define( 'MYSQL_LONG_BLOB_SIZE'  ,4294967296 );
 
 class TrustedArchiveDB
 {
-    /**
-     *
-     * Atributes in table #__crc_trustedarchive
-     */
     public      $id;
     public      $path;
     public      $name;
@@ -45,9 +33,6 @@ class TrustedArchiveDB
     private     $chosen_files_id;
     private     $last_check_history_id=0;
     private     $max_allowed_packet=0;
-    /**
-     * Connection to joomla base.
-     */
     public      $db;
 
     public function __construct( $p )
@@ -510,9 +495,7 @@ srcCheckLog::stop();
 srcCheckLog::start();
         foreach( $files as $i => $file )
         {
-//srcCheckLog::debug( " [$i]" . file[ "crc" ] . " [$i+1]" . $files[$i+1][ "crc" ] . "<<" );
             $in_query[]=$file;
-//srcCheckLog::debug( " [$i]" . $file . " [$i+1]" . $files[$i+1] . "<<" );
             $in_query_next = '\'' . $files[$i+1] . '\',' ; 
             $query = $this->db->getQuery(true)
                 ->insert ( $this->db->quoteName( '#__crc_files_has_trustedarchive' ) )
@@ -528,9 +511,6 @@ srcCheckLog::start();
                         -> where( $this->db->quoteName( 'cfta.crc_files_id' ) . ' IS NULL ' .
                            ' AND ' . 'concat( path , \''. '\\' . DIRECTORY_SEPARATOR . '\', filename ) IN (\''. implode('\',\'', $in_query) .'\')' )
                 );
-//srcCheckLog::debug( "in_query=>$in_query<" );
-//srcCheckLog::debug( "in_query_next=>$in_query_next<" );
-//srcCheckLog::debug( "query=>$query<" );
         if( ( strlen( $query ) + strlen( $in_query_next) ) >= $this->max_allowed_packet )
         {
 srcCheckLog::debug( "strlen(values_next)  =>>" . strlen( $values_next ) . "<<\n" .

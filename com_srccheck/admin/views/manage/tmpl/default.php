@@ -10,34 +10,22 @@
  **************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
-
 
 $listOrder     = $this->escape($this->filter_order);
 $listDirn      = $this->escape($this->filter_order_Dir);
 ?>
 <script type="text/javascript">
     jQuery(document).ready(function($){
-//        $("#srcCheckTabs > li").on("click", function() {
-            /**
-            * Set activeTab in code.
-            */
         activeTab = window.localStorage.getItem( "srcCheckTabActive" );
 
         $( "[href*='scat='], [action*='scat=']" ).each(function(){
             $.each(this.attributes, function() {
                 if( this.value.includes( "scat=" ) ) {
-//console.log( $( "["+this.name+"*='scat='" ).attr(this.name).replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
-//console.log(this.name, this.value );
-//console.log( this.value, this.value.replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
-//console.log( $( "["+this.name+"='"+this.value+"']" ).attr(this.name) );
                     $( "["+this.name+"='"+this.value+"']" ).attr(this.name, this.value.replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
-//console.log(this.name, this.value );
                 }
             });
         });
-//        })
 })
 </script>
 
@@ -160,5 +148,3 @@ $listDirn      = $this->escape($this->filter_order_Dir);
 	<?php echo JHtml::_('form.token'); ?>
     </div>
 </form>
-
-

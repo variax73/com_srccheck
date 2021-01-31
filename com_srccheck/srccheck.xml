@@ -52,8 +52,6 @@
 		<folder>helpers</folder>
 		<!-- custom library files section -->
 		<folder>mb_lib</folder>
-		<!-- custom command files section -->
-		<folder>bin</folder>
             </files>
             <languages folder="admin/language">
                 <language tag="en-GB">en-GB/en-GB.com_srccheck.ini</language>
@@ -64,16 +62,6 @@
                 <language tag="de-DE">de-DE/de-DE.com_srccheck.sys.ini</language>
             </languages>
         </administration>
-        <files folder="site">
-            <filename>index.html</filename>
-            <filename>srccheck.php</filename>
-            <filename>controller.php</filename>
-            <!-- controllers files section -->
-            <folder>controllers</folder>
-        </files>
-        <files>
-            <file type="plugin" id="srccheckverify" group="system">plg_system_srccheckverify.zip</file>
-        </files>
        	<updateservers>
             <!-- Change the URL below to match that of your own update XML file -->
             <server type="extension" name="Source Check Updates">http://f2y.org/joomla/com_srccheck/updates/updates.xml</server>

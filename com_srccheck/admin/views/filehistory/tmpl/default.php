@@ -9,8 +9,6 @@
  * @version   2.0.0
  **************************************************************************
  */
-
-// No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
 
 ?>
@@ -72,9 +70,6 @@ defined('_JEXEC') or die('Restricted Access');
 	<table class="table table-striped table-hover">
             <thead>
 		<tr>
-<!--                    <th>
-                    	  <!-- ?php // echo JHtml::_('grid.checkall'); ? 
-                    </th>-->
                     <th>
                         <?php echo JText::_( "COM_SRCCHECK_FILE_VERSION" ); ?>
                     </th>
@@ -93,11 +88,6 @@ defined('_JEXEC') or die('Restricted Access');
                 <?php if (!empty($this->items)) : ?>
 		<?php foreach ($this->items as $i => $row) : ?>
                 <tr>
-<!--                    <td>
-                        <!-- ?php
-                            echo JHtml::_('grid.id', $i, $row->c_id);
-                        ?>
-                    </td>-->
                     <td>
                         <?php echo $row->c_crc_check_history_id; ?>
                     </td>

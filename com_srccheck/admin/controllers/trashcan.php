@@ -11,7 +11,6 @@
  **************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
 class SrcCheckControllerTrashcan extends JControllerForm

@@ -11,57 +11,21 @@
  **************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\CMS\Factory;
 
-/**
- * HelloWorldList Model
- *
- * @since  0.0.1
- */
 class SrcCheckModelFileHistory extends JModelList
 {
-    /**
-     * Constructor.
-     *
-     * @param   array  $config  An optional associative array of configuration settings.
-     *
-     */
-//    public function __construct($config = array())
-//    {
-////    	if (empty($config['filter_fields']))
-////    	{
-////            $config['filter_fields'] = array(
-////            	'path',
-////            	'filename',
-////            	'status',
-////                'veryfied'
-////            );
-////    	}
-//        
-//   	parent::__construct($config);
-//    }
-
-    /**
-     * Method to build an SQL query to load the list data.
-     *
-     * @return      string  An SQL query
-     */
     protected function getListQuery()
     {
 srcCheckLog::start();
-        // Initialize variables.
         $trustedarchive_id  = JFactory::getApplication()->input->get( "scat" );
         $file_id            = JFactory::getApplication()->input->get( "file_id" );
 
 srcCheckLog::debug( "trustedarchive_id = >" . $trustedarchive_id . "<"
                     . "\nfile_id = >" . $file_id . "<" );
 
-
-
-        // Create the base select statement.
         $db                 = JFactory::getDbo();
 
         $query = $db->getQuery(true)

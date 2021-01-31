@@ -11,8 +11,6 @@ srcCheckLog::debug( "LOAD: " . __FILE__ );
  **************************************************************************
  */
 
-
-
 defined('_JEXEC') or die('Restricted access');
 
 define( "TA_MODE_INIT",         0 );
@@ -225,11 +223,8 @@ srcCheckLog::debug( "Last check is = >>" . $this->taDB->lastCheckId() . "<<" );
         $qFilesAdded = 0;
         $files = $this->taDB->selectCrcFilesToAddToTa( $mode );
 
-//srcCheckLog::debug(var_dump( $files ) );
         foreach ( $files as $file )
         {
-//            $this->close();
-//            $this->open_result = $this->open( $this->path . DIRECTORY_SEPARATOR . $this->filename );
             if( $file <> null )
             {
                 $f = $file->path.DIRECTORY_SEPARATOR.$file->filename;
@@ -293,7 +288,6 @@ srcCheckLog::debug( "Delete All files in Trashcan" );
 srcCheckLog::debug( "id = >>" . $file->id . "<<path = >>" . $file->path . "<<filename = >>" . $file->filename . "<<ta_localisation = >>" . $file->ta_localisation ); 
             $result = $this->deleteName( $this->trashName . DIRECTORY_SEPARATOR . $file->ta_localisation );
 srcCheckLog::debug( "result = >>" . $result );
-//            if( !$this->deleteName( $this->trashName . DIRECTORY_SEPARATOR . $file->ta_localisation ) )
             if( !$result )
             {
                 $err_msg = JText::sprintf( "COM_SRCCHECK_ERR_ARC_EMPTY_TRASHCAN", $file->filename . "[" . $file->ta_localisation . "](" . $this->showStatusMessage() . ")" );

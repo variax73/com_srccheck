@@ -9,11 +9,8 @@
  * @version   2.0.0
  **************************************************************************
  */
-
-// No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
 srcCheckLog::start();
-
 
 $listOrder     = $this->escape($this->filter_order);
 srcCheckLog::debug( "Test 1");
@@ -22,25 +19,15 @@ srcCheckLog::debug( "Test 2");
 ?>
 <script type="text/javascript">
     jQuery(document).ready(function($){
-//        $("#srcCheckTabs > li").on("click", function() {
-            /**
-            * Set activeTab in code.
-            */
         activeTab = window.localStorage.getItem( "srcCheckTabActive" );
 
         $( "[href*='scat='], [action*='scat=']" ).each(function(){
             $.each(this.attributes, function() {
                 if( this.value.includes( "scat=" ) ) {
-//console.log( $( "["+this.name+"*='scat='" ).attr(this.name).replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
-//console.log(this.name, this.value );
-//console.log( this.value, this.value.replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
-//console.log( $( "["+this.name+"='"+this.value+"']" ).attr(this.name) );
                     $( "["+this.name+"='"+this.value+"']" ).attr(this.name, this.value.replace( /scat[^&]+/i, "scat=" + activeTab.substr( 1 ) ) );
-//console.log(this.name, this.value );
                 }
             });
         });
-//        })
 })
 </script>
 
@@ -67,8 +54,7 @@ srcCheckLog::debug( "Test 2");
 	<table class="table table-striped table-hover">
                 <thead>
 		<tr>
-<!-- 			<th width="1%"><?php //echo JText::_('COM_SRECCHECK_NUM'); ?></th>
--->			<th width="2%">
+			<th width="2%">
 				<?php echo JHtml::_('grid.checkall'); ?>
 			</th>
 			<th width="50%">
@@ -97,10 +83,7 @@ srcCheckLog::debug( "Test 2");
 				<?php foreach ($this->items as $i => $row) : ?>
 
 					<tr>
-<!--						<td>
-							<?php //echo $this->pagination->getRowOffset($i); ?>
-						</td>
--->						<td>
+						<td>
 							<?php
                                                             echo JHtml::_('grid.id', $i, $row->file_id);
                                                         ?>
@@ -133,7 +116,6 @@ srcCheckLog::debug( "Test 2");
 						</td>
 						<td align="center">
 							<?php
-//                                                            echo JText::_($row->last_check_id);
                                                             switch ($row->veryfied) {
                                                                 case FILE_CHECKED_STATUS_INVALID:
                                                                     echo JText::_('COM_SRCCHECK_INVALID_STATUS_FILE');

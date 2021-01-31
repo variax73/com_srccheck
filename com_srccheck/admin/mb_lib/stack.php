@@ -1,5 +1,4 @@
 <?php
-//echo "LOAD " . __FILE__ . "<br>";
 /**
  **************************************************************************
  Source Files Check - component that verifies the integrity of Joomla files
@@ -11,7 +10,6 @@
  **************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
 class stack

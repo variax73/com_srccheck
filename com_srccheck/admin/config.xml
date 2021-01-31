@@ -12,22 +12,6 @@
  */
 -->
 <config>
-    <!-- fieldset
-        name="configuration"
-        label="COM_SRCCHECK_CONFIG_LABEL"
-        description="COM_SRCCHECK_CONFIG_LABEL_DESC"
-    >
-        <field
-            name="show_category"
-            type="radio"
-            label="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_LABEL"
-            description="COM_HELLOWORLD_HELLOWORLD_FIELD_SHOW_CATEGORY_DESC"
-            default="0"
-        >
-            <option value="0">JHIDE</option>
-            <option value="1">JSHOW</option>
-        </field>
-    </fieldset -->
     <fieldset
         name="permissions"
         label="JCONFIG_PERMISSIONS_LABEL"

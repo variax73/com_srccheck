@@ -21,27 +21,6 @@
             hint="JSEARCH_FILTER"
             class="js-stools-search-string"
 	/>
-<!--        <field name     = "file_status"
-            type        = "list"
-            default     = ""
-            label       = "COM_SRCCHECK_FILTER_FILE_STATUS"
-            onchange    = "this.form.submit();"
-        >
-        <option value="">COM_SRCCHECK_FILTER_SELECT_STATUS_FILE</option>
-        <option value="0">COM_SRCCHECK_NEW_STATUS_FILE</option>
-        <option value="1">COM_SRCCHECK_VERYFIED_STATUS_FILE</option>
-        <option value="2">COM_SRCCHECK_DELETED_STATUS_FILE</option>
-        </field>-->
-<!--        <field name     = "file_veryfied"
-            type        = "list"
-            default     = ""
-            label       = "COM_SRCCHECK_FILTER_FILE_VERYFIED"
-            onchange    = "this.form.submit();"
-        >
-        <option value="">COM_SRCCHECK_FILTER_SELECT_VERYFIED</option>
-        <option value="0">COM_SRCCHECK_INVALID_STATUS_FILE</option>
-        <option value="1">COM_SRCCHECK_VALID_STATUS_FILE</option>
-        </field>-->
     </fields>
 
     <fields name="list">

@@ -10,7 +10,6 @@
  **************************************************************************
  */
 
-// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
 include_once ( "stack.php" );
@@ -43,16 +42,8 @@ class srcCheckLog extends Log
         {
             $msg = srcCheckLog::addLocation( $context ) . "\n" . $entry;
             Log::add( $msg, $category, "com_srccheck" );
-//            if( $category == Log::ERROR ) $GLOBALS[ $this->scErrStack ]->push( $msg );
-//            echo str_replace( "\n", "<br>", $msg). "<br>";
         }
     }
-
-//    public function getErrors()
-//    {
-//        while ( $errors[] = $GLOBALS[ $this->scErrStack ]->pop() );
-//        return $errors;
-//    }
 
     public function start( $entry = "Start" )
     {
