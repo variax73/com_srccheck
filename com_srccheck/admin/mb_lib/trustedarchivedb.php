@@ -633,7 +633,7 @@ srcCheckLog::debug( "in_query = >" . $in_query );
                 -> select( $this->db->quoteName( array ("cf.id", "cf.path", "cf.filename", "cc.ta_localisation" ) ) )
                 -> from( $this->db->quoteName( "#__crc_files", "cf" ) )
                 -> join( "inner", $this->db->quoteName( "#__crc_check", "cc" )  . " ON " . $this->db->quoteName( "cc.crc_files_id" ) . " = " . $this->db->quoteName( "cf.id" )
-                                                                                . " AND " . $this->db->quoteName( "cc.ta_localisation" ) . " <> " . "\"\"" )
+                       )
                 -> where( $this->db->quoteName( "cc.crc_trustedarchive_id" ) . " = " . $this->id )
                 -> where( $this->db->quoteName( "cf.id" ) . " IN (" . $in_query . ")" );
 srcCheckLog::debug( "query = >>" . $query . "<<" );
