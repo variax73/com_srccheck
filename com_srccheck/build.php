@@ -70,7 +70,6 @@ $filename = "com_srccheck";
 unlink($filename.".zip");
 echo "7z.exe a -tzip ".$filename.".zip ".$filename."\n";
 exec("7z.exe a -tzip ".$filename.".zip admin");
-exec("7z.exe a -tzip ".$filename.".zip site");
 exec("7z.exe a -tzip ".$filename.".zip srccheck.xml");
 exec("7z.exe a -tzip ".$filename.".zip script.php");
 exec("7z.exe a -tzip ".$filename.".zip index.html");
