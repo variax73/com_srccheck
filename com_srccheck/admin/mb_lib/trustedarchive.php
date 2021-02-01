@@ -199,6 +199,7 @@ srcCheckLog::debug( "Number of files read sizeof( lft ) =>" . sizeof( $lft ) . "
         $this->taDB->insertCrcCheckHistory();
         $this->taDB->insertCrcCheck( $file_status, $mode );
         $this->taDB->updateDeletedCrcFiles();
+        $this->taDB->updateNewCrcFiles();
         $this->taDB->db->transactionCommit();
 srcCheckLog::stop();
     }

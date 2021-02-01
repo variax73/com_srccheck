@@ -28,10 +28,11 @@ class SrcCheckControllerSrcChecks extends JControllerAdmin
     {
 srcCheckLog::start();;
         $tarchive   = new TrustedArchive( array( "id" => JFactory::getApplication()->input->get( "scat" ) ) );
+//        $tarchive->taDB->db->transactionStart();
         $tarchive->verifyCrc();
 
         $tarchive->updateArchive();
-
+//        $tarchive->taDB->db->transactionCommit();
 srcCheckLog::stop();
 //        // Display the view
 //        if( $mode != SILENCE_MODE )
