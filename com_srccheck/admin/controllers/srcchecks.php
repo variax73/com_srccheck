@@ -29,7 +29,7 @@ srcCheckLog::start();;
         $tarchive->verifyCrc();
 
         $tarchive->updateArchive();
-
+srcCheckLog::stop();
         parent::display($tpl);
     }
 

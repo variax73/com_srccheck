@@ -207,10 +207,7 @@ srcCheckLog::currentDuration();
             ->join( "left", $this->db->quoteName( "#__crc_check", "p_cc" )  . " ON " . $this->db->quoteName( "cf.id" ) . " = " . $this->db->quoteName( "p_cc.crc_files_id" )
                                                                             . " AND " . $this->db->quoteName( "p_cc.crc_check_history_id" ) . " = " . $this->db->quoteName( "max_cc.prv_crc_check_history" )
                   )
-            ->where( array( $this->db->quoteName( "cf.status" ) . " < " . FILE_STATUS_DELETED,
-                            $this->db->quoteName( "c_cc.crc" ) . " <> " . "IF( " . $this->db->quoteName( "cf.status" ) . " = " . FILE_STATUS_NEW . ",-1, " . $this->db->quoteName( "p_cc.crc" ) . " )",
-                          )
-                   );
+            ->where( $this->db->quoteName( "c_cc.crc" ) . " <> " . "IF( " . $this->db->quoteName( "cf.status" ) . " = " . FILE_STATUS_NEW . ",-1, " . $this->db->quoteName( "p_cc.crc" ) . " )" );
 srcCheckLog::debug( "query = >>" . $query . "<<" );
         $this->db->setQuery($query);
         $this->db->execute();
@@ -290,7 +287,8 @@ srcCheckLog::start();
                             -> select( $veryfied )
                             -> from( $this->db->quoteName( "#__crc_tmp", "ct" ) )
                             -> join( "LEFT", $this->db->quoteName( "#__crc_files", "cf" )   . " ON " . $this->db->quoteName( "cf.path" ) . " = " . $this->db->quoteName( "ct.path" )
-                                                                                            . " AND " . $this->db->quoteName( "cf.filename" ) . " = " . $this->db->quoteName( "ct.filename" ) )
+                                                                                            . " AND " . $this->db->quoteName( "cf.filename" ) . " = " . $this->db->quoteName( "ct.filename" )
+                                                                                            . " AND " . $this->db->quoteName( "cf.status" ) . " < " . FILE_STATUS_DELETED )
                             -> join( "LEFT", $this->db->quoteName( "#__crc_files_excluded", "cfex" )    . " ON " . $this->db->quoteName( "ct.path" ) . " = " . $this->db->quoteName( "cfex.path" )
                                                                                                         . " AND " . $this->db->quoteName( "ct.filename" ) . " = IFNULL(" . $this->db->quoteName( "cfex.filename" ) . "," . $this->db->quoteName( "ct.filename" ) . ")"
                                                                                                         . " AND " . $this->db->quoteName( "cfex.crc_trustedarchive_id" ) . " = " . $this->id )
@@ -395,10 +393,38 @@ srcCheckLog::debug( " users_id = >" . $this->users_id );
                                                                                                                         ->from( $this->db->quoteName( "#__crc_check" ) )
                                                                                                                         ->group( $this->db->quoteName( "crc_files_id" ) ) . ")"
                                         )
-                                -> where( "if(". $mode . "<>" . TA_MODE_INIT . "," . $this->db->quoteName( "cc.crc" ) . "IS NULL,1)" )
+                                -> where( array(    "if(". $mode . "<>" . TA_MODE_INIT . "," . $this->db->quoteName( "cc.crc" ) . "IS NULL,1)",
+                                                    $this->db->quoteName( "cf.status" ) . " < " . FILE_STATUS_DELETED
+                                               ) 
+                                        )
                           );
 
 srcCheckLog::debug( "query = >>" . $query . "<<" );
+        $this->db->setQuery($query);
+        $this->db->execute();
+srcCheckLog::stop();
+    }
+
+    public function updateNewCrcFiles()
+    {
+srcCheckLog::start();
+
+        $query = $this->db->getQuery(true)
+                -> update( $this->db->quoteName( '#__crc_files', 'cf' ) )
+                -> join( 'inner', '(' . $query = $this->db->getQuery(true)
+                                        ->select( $this->db->quoteName( 'cff.id', 'files_id' ) )
+                                        ->from( $this->db->quoteName( '#__crc_files', 'cff' ) )
+                                        ->join( 'inner', $this->db->quoteName( '#__crc_check', 'cc' ) . 
+                                                ' ON ' . $this->db->quoteName( 'cff.id' ) . ' = ' . $this->db->quoteName( 'cc.crc_files_id' )
+                                              )
+                                        ->where( $this->db->quoteName( 'cff.status' ) . ' = ' . FILE_STATUS_NEW )
+                                        ->group( $this->db->quoteName( 'cff.id' ) )
+                                        ->having( 'MAX(' . $this->db->quoteName( 'cc.crc_check_history_id' ) . ') < ' . $this->last_check_history_id . ' OR ' . 'COUNT(' . $this->db->quoteName( 'cff.id' ) . ') > 1' ) . 
+                        ') AS ' . $this->db->quoteName( 'cx' ) . ' ON ' . $this->db->quoteName( 'cf.id' ) . ' = ' . $this->db->quoteName( 'cx.files_id' )
+                        )
+                -> set( $this->db->quoteName( 'cf.status' ) . ' = ' . FILE_STATUS_VERIFIED );
+srcCheckLog::debug( "query = >>" . $query . "<<" );
+
         $this->db->setQuery($query);
         $this->db->execute();
 srcCheckLog::stop();
